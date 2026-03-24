@@ -44,3 +44,9 @@ Copyright (c) 2026 Brian.
 All rights reserved. No part of this project may be copied, modified, distributed, or reused without explicit written permission from the copyright owner.
 
 GitHub is a trademark of GitHub, Inc. This project is independently owned and operated by Brian.
+
+## Legal Documents
+
+- Terms of use (site): `TERMS.html`
+- License: `LICENSE`
+- Repository notice: `NOTICE`
