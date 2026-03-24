@@ -3,6 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="referrer" content="strict-origin-when-cross-origin" />
+<meta http-equiv="X-Content-Type-Options" content="nosniff" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://formspree.io; form-action 'self' https://formspree.io; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; upgrade-insecure-requests" />
+<meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=()" />
 <title>Brian — Developer & Engineer </title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -568,6 +572,33 @@
     color: var(--muted);
   }
   .footer-accent { color: var(--accent); }
+  .footer-meta {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  .footer-link {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--accent2);
+    text-decoration: none;
+    border: 1px solid rgba(0, 191, 255, 0.35);
+    padding: 8px 10px;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .footer-link:hover {
+    background: rgba(0, 191, 255, 0.1);
+    border-color: var(--accent2);
+  }
+  .legal-note {
+    width: 100%;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.02em;
+  }
 
   /* ANIMATIONS */
   @keyframes fadeUp {
@@ -642,6 +673,7 @@
     .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 32px; }
     .contact-link { padding: 14px; word-break: break-word; }
     footer { padding: 24px 20px; flex-direction: column; gap: 12px; text-align: center; }
+    .footer-meta { justify-content: center; }
   }
 
   @media (max-width: 420px) {
@@ -946,11 +978,15 @@
 
 <!-- FOOTER -->
 <footer>
-  <p>© 2026 <span class="footer-accent">Brian</span> — All rights reserved.</p>
-  <p>Built with precision. Deployed with intent.</p>
+  <p>© 2026 <span class="footer-accent">Brian</span> — All rights reserved. Unauthorized reproduction prohibited.</p>
+  <div class="footer-meta">
+    <a class="footer-link" href="https://github.com/Bryvn01" target="_blank" rel="noopener noreferrer" aria-label="GitHub owner profile">GitHub Owner: @Bryvn01</a>
+    <p class="legal-note">GitHub is a trademark of GitHub, Inc. This site is independently owned and operated by Brian.</p>
+  </div>
 </footer>
 
 <script>
+  'use strict';
   // Custom cursor
   const cursor = document.getElementById('cursor');
   const ring = document.getElementById('cursorRing');
