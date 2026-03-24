@@ -564,7 +564,10 @@
     position: relative; z-index: 1;
     border-top: 1px solid var(--border);
     padding: 32px 60px;
-    display: flex; align-items: center; justify-content: space-between;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
   }
   footer p {
     font-family: var(--mono);
@@ -572,9 +575,18 @@
     color: var(--muted);
   }
   .footer-accent { color: var(--accent); }
+  .footer-left {
+    max-width: 560px;
+  }
+  .footer-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+  }
   .footer-meta {
     display: flex;
-    gap: 12px;
+    gap: 10px;
     align-items: center;
     flex-wrap: wrap;
     justify-content: flex-end;
@@ -592,12 +604,29 @@
     background: rgba(0, 191, 255, 0.1);
     border-color: var(--accent2);
   }
+  .footer-link.github {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .gh-mark {
+    width: 20px;
+    height: 20px;
+    border: 1px solid rgba(0, 191, 255, 0.35);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.63rem;
+    letter-spacing: 0.05em;
+  }
   .legal-note {
-    width: 100%;
+    max-width: 480px;
     color: var(--muted);
     font-family: var(--mono);
     font-size: 0.62rem;
     letter-spacing: 0.02em;
+    text-align: right;
   }
 
   /* ANIMATIONS */
@@ -672,8 +701,17 @@
     .service-card { padding: 28px 22px; }
     .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 32px; }
     .contact-link { padding: 14px; word-break: break-word; }
-    footer { padding: 24px 20px; flex-direction: column; gap: 12px; text-align: center; }
+    footer {
+      padding: 24px 20px;
+      flex-direction: column;
+      gap: 14px;
+      text-align: center;
+      align-items: center;
+    }
+    .footer-left { max-width: none; }
+    .footer-right { align-items: center; }
     .footer-meta { justify-content: center; }
+    .legal-note { text-align: center; }
   }
 
   @media (max-width: 420px) {
@@ -978,12 +1016,19 @@
 
 <!-- FOOTER -->
 <footer>
-  <p>© 2026 <span class="footer-accent">Brian</span> — All rights reserved. Unauthorized reproduction prohibited.</p>
-  <div class="footer-meta">
-    <a class="footer-link" href="https://github.com/Bryvn01" target="_blank" rel="noopener noreferrer" aria-label="GitHub owner profile">GitHub Owner: @Bryvn01</a>
-    <a class="footer-link" href="./TERMS.html" aria-label="Terms of use">Terms</a>
-    <a class="footer-link" href="./LICENSE" aria-label="License">License</a>
-    <p class="legal-note">GitHub is a trademark of GitHub, Inc. This site is independently owned and operated by Brian.</p>
+  <div class="footer-left">
+    <p>© 2026 <span class="footer-accent">Brian</span> — All rights reserved. Unauthorized reproduction prohibited.</p>
+  </div>
+  <div class="footer-right">
+    <div class="footer-meta">
+      <a class="footer-link github" href="https://github.com/Bryvn01" target="_blank" rel="noopener noreferrer" aria-label="GitHub owner profile">
+        <span class="gh-mark" aria-hidden="true">GH</span>
+        <span>@Bryvn01</span>
+      </a>
+      <a class="footer-link" href="./TERMS.html" aria-label="Terms of use">Terms</a>
+      <a class="footer-link" href="./LICENSE" aria-label="License">License</a>
+    </div>
+    <p class="legal-note">Portfolio is independently owned and operated by Brian. GitHub profile linked for attribution.</p>
   </div>
 </footer>
 
