@@ -974,33 +974,7 @@
       </div>
       <div class="project-body">
         <div class="project-name">AI Client Dashboard</div>
-        <p class="project-desc compact">An intelligent business dashboard that lets non-technical users ask plain-English questions about their sales data and receive instant answers — accompanied by auto-generated charts and a written summary — without writing a single query.</p>
-        <p class="project-desc compact">Engineered around a server-side prompt-construction layer: the backend extracts the relevant data slice, injects it as structured context into the LLM request, and streams the response back to the client. API credentials never touch the browser. A parallel anomaly-detection pass flags outliers against configurable thresholds independently of the LLM call, keeping insights fast even when the model is slow.</p>
-        <pre class="security-snippet" aria-label="Python code: LLM prompt construction with injected data context"><span style="color:var(--muted);"># dashboard/ai_service.py — prompt construction</span>
-<span style="color:var(--accent2);">def</span> <span style="color:#fff;">build_prompt</span>(question, data_context):
-    <span style="color:var(--muted);">"""Inject scoped data slice — keeps tokens minimal, context precise."""</span>
-    <span style="color:var(--accent2);">return</span> [
-        {<span style="color:var(--accent);">"role"</span>: <span style="color:var(--accent);">"system"</span>, <span style="color:var(--accent);">"content"</span>: SYSTEM_PROMPT},
-        {<span style="color:var(--accent);">"role"</span>: <span style="color:var(--accent);">"user"</span>,   <span style="color:var(--accent);">"content"</span>: (
-            <span style="color:var(--accent);">f"Data:\n{data_context}\n\nQuestion: {question}"</span>
-        )},
-    ]</pre>
-        <p class="project-desc compact"><span class="hl2">How it works:</span></p>
-        <ol class="project-workflow" aria-label="AI Dashboard workflow steps">
-          <li>User types a natural language question</li>
-          <li>Backend queries DB and extracts a scoped data slice</li>
-          <li>Prompt constructed with data context + system instructions</li>
-          <li>LLM API streams response → parsed into chart + text summary</li>
-          <li>Anomaly check runs in parallel → flagged outliers surfaced automatically</li>
-        </ol>
-        <ul class="project-features" aria-label="AI Dashboard features">
-          <li>Natural language querying of structured sales data — no SQL required.</li>
-          <li>Streaming responses for low perceived latency on the front end.</li>
-          <li>Auto-generated chart type recommendation based on query intent.</li>
-          <li>Anomaly detection with configurable thresholds, independent of LLM latency.</li>
-          <li>API key secured server-side; credentials are never exposed to the client.</li>
-          <li>Context window managed by injecting only the relevant data slice per query.</li>
-        </ul>
+        <p class="project-desc">An intelligent business dashboard where non-technical users ask plain-English questions about their sales data and get instant answers with auto-generated charts — no SQL required. API credentials stay server-side; a parallel anomaly-detection pass flags outliers independently of the LLM call.</p>
         <div class="project-stack">
           <span class="stack-item">Django</span>
           <span class="stack-item">LLM API</span>
