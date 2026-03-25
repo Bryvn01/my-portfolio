@@ -73,9 +73,22 @@
     <p>GitHub is a trademark of GitHub, Inc. This site is independently owned and operated by Brian.</p>
 
     <h2>6. Contact</h2>
-    <p>For permissions or licensing requests, contact: <a href="mailto:Bryangitau@yahoo.com">Bryangitau@yahoo.com</a></p>
+    <p>For permissions or licensing requests, contact: <a id="legalEmailLink" href="#">Email Brian</a></p>
 
     <p class="muted"><a href="./index.html">Return to portfolio</a></p>
   </main>
+  <script>
+  'use strict';
+  (function setupLegalEmailLink() {
+    const encodedEmail = [78, 122, 121, 74, 65, 66, 95, 74, 74, 110, 77, 74, 77, 66, 66, 5, 76, 86, 64];
+    const key = 12;
+    const emailAddress = encodedEmail.map((n) => String.fromCharCode(n ^ key)).join('');
+    const legalEmailLink = document.getElementById('legalEmailLink');
+    if (!legalEmailLink) return;
+    legalEmailLink.setAttribute('href', `mailto:${emailAddress}`);
+    legalEmailLink.textContent = emailAddress;
+    legalEmailLink.setAttribute('aria-label', `Email ${emailAddress}`);
+  })();
+  </script>
 </body>
 </html>
