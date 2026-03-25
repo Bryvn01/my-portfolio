@@ -963,17 +963,25 @@
     </div>
     <div class="project-card reveal">
       <div class="project-header">
-        <span class="project-badge" style="background: rgba(191,111,255,0.1); color: #bf6fff; border-color: rgba(191,111,255,0.3);">AI TOOL</span>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+          <span class="project-badge" style="background: rgba(191,111,255,0.1); color: #bf6fff; border-color: rgba(191,111,255,0.3);">AI TOOL</span>
+          <span class="project-badge" style="background:rgba(191,111,255,0.08);color:#bf6fff;border-color:rgba(191,111,255,0.25);">🧠 Natural Language Queries</span>
+          <span class="project-badge" style="background:rgba(0,255,157,0.08);color:var(--accent);border-color:rgba(0,255,157,0.25);">📊 Auto Insights</span>
+          <span class="project-badge" style="background:rgba(0,191,255,0.08);color:var(--accent2);border-color:rgba(0,191,255,0.25);">⚠️ Anomaly Detection</span>
+          <span class="project-badge" style="background:rgba(255,77,109,0.08);color:#ff4d6d;border-color:rgba(255,77,109,0.25);">🔑 Server-Side API Key</span>
+        </div>
         <span class="project-link" style="color: var(--muted);">🔒</span>
       </div>
       <div class="project-body">
         <div class="project-name">AI Client Dashboard</div>
-        <div class="project-desc">An intelligent business dashboard integrating LLM APIs to answer natural language questions about sales data, generate insights, and flag anomalies automatically.</div>
+        <p class="project-desc">An intelligent business dashboard where non-technical users ask plain-English questions about their sales data and get instant answers with auto-generated charts — no SQL required. API credentials stay server-side; a parallel anomaly-detection pass flags outliers independently of the LLM call.</p>
         <div class="project-stack">
           <span class="stack-item">Django</span>
-          <span class="stack-item">Claude API</span>
+          <span class="stack-item">LLM API</span>
           <span class="stack-item">React</span>
-          <span class="stack-item">Charts.js</span>
+          <span class="stack-item">Chart.js</span>
+          <span class="stack-item">Streaming</span>
+          <span class="stack-item">REST</span>
         </div>
       </div>
     </div>
