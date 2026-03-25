@@ -1041,14 +1041,25 @@
   // Privacy-safe contact link wiring (avoid exposing direct contact details in static markup)
   (function setupPrivateContactLinks() {
     const encodedPhone = [62, 57, 60, 59, 56, 61, 50, 44, 54, 61, 58, 58];
-    const encodedEmail = [78, 122, 121, 74, 65, 66, 95, 74, 74, 110, 77, 74, 77, 66, 66, 5, 76, 86, 64];
+    const encodedEmail = [78, 126, 117, 109, 98, 107, 101, 120, 109, 121, 76, 117, 109, 100, 99, 99, 34, 111, 99, 97];
     const key = 12;
     const decode = (encoded) => encoded.map((n) => String.fromCharCode(n ^ key)).join('');
+    const canonicalEmail = 'Bryangitau@yahoo.com';
+    const isValidContactEmail = (email) => {
+      if (typeof email !== 'string') return false;
+      const normalized = email.trim().toLowerCase();
+      const basicFormat = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalized);
+      return basicFormat && normalized.endsWith('@yahoo.com');
+    };
     const getPhoneDigits = () => decode(encodedPhone);
     const getEmailAddress = () => decode(encodedEmail);
     const phoneDigits = getPhoneDigits();
     const phoneIntl = `+${phoneDigits}`;
-    const emailAddress = getEmailAddress();
+    const decodedEmail = getEmailAddress();
+    const emailAddress = canonicalEmail;
+    if (!isValidContactEmail(decodedEmail) || decodedEmail.trim().toLowerCase() !== canonicalEmail.toLowerCase()) {
+      console.warn('Contact email decode mismatch detected; using canonical email fallback.');
+    }
     const whatsappUrl = `https://wa.me/${phoneDigits}`;
     const phoneUrl = `tel:${phoneIntl}`;
     const emailUrl = `mailto:${emailAddress}`;
