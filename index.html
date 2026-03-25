@@ -1056,12 +1056,9 @@
     const phoneDigits = getPhoneDigits();
     const phoneIntl = `+${phoneDigits}`;
     const decodedEmail = getEmailAddress();
-    let emailAddress = canonicalEmail;
-    if (isValidContactEmail(decodedEmail)) {
-      const normalizedDecodedEmail = decodedEmail.trim().toLowerCase();
-      if (normalizedDecodedEmail === canonicalEmail.toLowerCase()) {
-        emailAddress = canonicalEmail;
-      }
+    const emailAddress = canonicalEmail;
+    if (!isValidContactEmail(decodedEmail) || decodedEmail.trim().toLowerCase() !== canonicalEmail.toLowerCase()) {
+      console.warn('Contact email decode mismatch detected; using canonical email fallback.');
     }
     const whatsappUrl = `https://wa.me/${phoneDigits}`;
     const phoneUrl = `tel:${phoneIntl}`;
