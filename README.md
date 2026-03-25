@@ -22,6 +22,12 @@ Professional portfolio website for Brian (Bryvn01), focused on secure engineerin
 npx serve .
 ```
 
+3. Run the contact email regression check:
+
+```bash
+python scripts/check_contact_email.py
+```
+
 ## Deployment
 
 ### GitHub Pages
