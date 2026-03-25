@@ -977,8 +977,8 @@
     <div>
       <p class="contact-text">Have a project in mind? Need automation, an M-Pesa integration, or a full web app? Let's talk. I respond within 24 hours.</p>
       <div class="contact-links">
-        <a href="mailto:Bryangitau@yahoo.com" class="contact-link" aria-label="Email Bryangitau@yahoo.com">
-          <span class="ico">✉</span>  Bryangitau@yahoo.com
+        <a href="#" class="contact-link privacy-contact-link" data-contact-kind="email" aria-label="Send an email to Brian">
+          <span class="ico">✉</span><span class="contact-label"> Email Brian</span>
         </a>
         <a href="https://github.com/Bryvn01" target="_blank" rel="noopener noreferrer" class="contact-link">
           <span class="ico">⌥</span> github.com/Bryvn01
@@ -993,6 +993,7 @@
           <span class="ico">◎</span> Phone Call
         </a>
       </div>
+      <noscript><p class="contact-text">Email link requires JavaScript; use the contact form below.</p></noscript>
     </div>
     <form id="contactForm" class="contact-form reveal" action="https://formspree.io/f/mgopwenl" method="POST">
       <!-- Honeypot for silent spam protection -->
@@ -1037,26 +1038,43 @@
 
 <script>
   'use strict';
-  // Privacy-safe contact link wiring (avoid exposing direct phone number in static markup)
+  // Privacy-safe contact link wiring (avoid exposing direct contact details in static markup)
   (function setupPrivateContactLinks() {
-    const encoded = [62, 57, 60, 59, 56, 61, 50, 44, 54, 61, 58, 58];
+    const encodedPhone = [62, 57, 60, 59, 56, 61, 50, 44, 54, 61, 58, 58];
+    const encodedEmail = [78, 122, 121, 74, 65, 66, 95, 74, 74, 110, 77, 74, 77, 66, 66, 5, 76, 86, 64];
     const key = 12;
-    const getPhoneDigits = () => encoded.map((n) => String.fromCharCode(n ^ key)).join('');
+    const decode = (encoded) => encoded.map((n) => String.fromCharCode(n ^ key)).join('');
+    const getPhoneDigits = () => decode(encodedPhone);
+    const getEmailAddress = () => decode(encodedEmail);
     const phoneDigits = getPhoneDigits();
     const phoneIntl = `+${phoneDigits}`;
+    const emailAddress = getEmailAddress();
     const whatsappUrl = `https://wa.me/${phoneDigits}`;
     const phoneUrl = `tel:${phoneIntl}`;
+    const emailUrl = `mailto:${emailAddress}`;
 
     document.querySelectorAll('.privacy-contact-link').forEach((link) => {
       const kind = link.getAttribute('data-contact-kind');
       if (!kind) return;
-      const targetHref = kind === 'whatsapp' ? whatsappUrl : phoneUrl;
+      const targetHref = kind === 'whatsapp'
+        ? whatsappUrl
+        : kind === 'email'
+          ? emailUrl
+          : phoneUrl;
       link.setAttribute('href', targetHref);
       if (kind === 'whatsapp') {
         link.setAttribute('target', '_blank');
         link.setAttribute('rel', 'noopener noreferrer');
       } else {
         link.removeAttribute('target');
+        if (kind === 'email') {
+          link.removeAttribute('rel');
+          link.setAttribute('aria-label', `Email ${emailAddress}`);
+          const labelNode = link.querySelector('.contact-label');
+          if (labelNode) {
+            labelNode.textContent = ` ${emailAddress}`;
+          }
+        }
       }
     });
   })();
