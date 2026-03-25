@@ -1045,23 +1045,32 @@
     const key = 12;
     const decode = (encoded) => encoded.map((n) => String.fromCharCode(n ^ key)).join('');
     const canonicalEmail = 'Bryangitau@yahoo.com';
+    const canonicalPhoneDigits = '';
     const isValidContactEmail = (email) => {
       if (typeof email !== 'string') return false;
       const normalized = email.trim().toLowerCase();
       const basicFormat = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalized);
       return basicFormat && normalized.endsWith('@yahoo.com');
     };
+    const normalizePhoneDigits = (value) => (typeof value === 'string' ? value.replace(/\D/g, '') : '');
+    const isValidContactPhone = (phone) => /^\d{10,15}$/.test(phone);
     const getPhoneDigits = () => decode(encodedPhone);
     const getEmailAddress = () => decode(encodedEmail);
-    const phoneDigits = getPhoneDigits();
-    const phoneIntl = `+${phoneDigits}`;
+    const decodedPhoneDigits = normalizePhoneDigits(getPhoneDigits());
+    const fallbackPhoneDigits = normalizePhoneDigits(canonicalPhoneDigits);
+    const phoneDigits = isValidContactPhone(decodedPhoneDigits) ? decodedPhoneDigits : fallbackPhoneDigits;
+    const hasValidPhone = isValidContactPhone(phoneDigits);
+    const phoneIntl = hasValidPhone ? `+${phoneDigits}` : '';
     const decodedEmail = getEmailAddress();
     const emailAddress = canonicalEmail;
+    if (!hasValidPhone) {
+      console.warn('Contact phone decode mismatch detected; phone and WhatsApp links will use contact form fallback.');
+    }
     if (!isValidContactEmail(decodedEmail) || decodedEmail.trim().toLowerCase() !== canonicalEmail.toLowerCase()) {
       console.warn('Contact email decode mismatch detected; using canonical email fallback.');
     }
-    const whatsappUrl = `https://wa.me/${phoneDigits}`;
-    const phoneUrl = `tel:${phoneIntl}`;
+    const whatsappUrl = hasValidPhone ? `https://wa.me/${phoneDigits}` : '#contactForm';
+    const phoneUrl = hasValidPhone ? `tel:${phoneIntl}` : '#contactForm';
     const emailUrl = `mailto:${emailAddress}`;
 
     document.querySelectorAll('.privacy-contact-link').forEach((link) => {
@@ -1074,8 +1083,14 @@
           : phoneUrl;
       link.setAttribute('href', targetHref);
       if (kind === 'whatsapp') {
-        link.setAttribute('target', '_blank');
-        link.setAttribute('rel', 'noopener noreferrer');
+        if (hasValidPhone) {
+          link.setAttribute('target', '_blank');
+          link.setAttribute('rel', 'noopener noreferrer');
+        } else {
+          link.removeAttribute('target');
+          link.removeAttribute('rel');
+          link.setAttribute('aria-label', 'Use contact form (WhatsApp temporarily unavailable)');
+        }
       } else {
         link.removeAttribute('target');
         if (kind === 'email') {
@@ -1085,6 +1100,9 @@
           if (labelNode) {
             labelNode.textContent = ` ${emailAddress}`;
           }
+        } else if (kind === 'phone' && !hasValidPhone) {
+          link.removeAttribute('rel');
+          link.setAttribute('aria-label', 'Use contact form (Phone call temporarily unavailable)');
         }
       }
     });
