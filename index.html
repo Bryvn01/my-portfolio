@@ -1053,8 +1053,7 @@
     };
     const toCanonicalEmail = (email) => {
       if (typeof email !== 'string') return canonicalEmail;
-      const trimmedEmail = email.trim();
-      return trimmedEmail.toLowerCase() === canonicalEmail.toLowerCase() ? canonicalEmail : trimmedEmail;
+      return canonicalEmail;
     };
     const getPhoneDigits = () => decode(encodedPhone);
     const getEmailAddress = () => decode(encodedEmail);
