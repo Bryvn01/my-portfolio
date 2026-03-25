@@ -986,10 +986,10 @@
         <a href="https://www.linkedin.com/in/brian-g-9772ab2a5?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" rel="noopener noreferrer" class="contact-link">
           <span class="ico">◈</span> LinkedIn Profile
         </a>
-        <a href="#" target="_blank" rel="noopener noreferrer" class="contact-link privacy-contact-link" data-contact-kind="whatsapp" aria-label="Message on WhatsApp">
+        <a href="#contactForm" class="contact-link privacy-contact-link" data-contact-kind="whatsapp" aria-label="Message on WhatsApp">
           <span class="ico">🟢</span> WhatsApp Chat
         </a>
-        <a href="#" class="contact-link privacy-contact-link" data-contact-kind="phone" aria-label="Call Brian by phone">
+        <a href="#contactForm" class="contact-link privacy-contact-link" data-contact-kind="phone" aria-label="Call Brian by phone">
           <span class="ico">◎</span> Phone Call
         </a>
       </div>
@@ -1051,15 +1051,13 @@
       const kind = link.getAttribute('data-contact-kind');
       if (!kind) return;
       const targetHref = kind === 'whatsapp' ? whatsappUrl : phoneUrl;
-
-      link.addEventListener('click', (event) => {
-        event.preventDefault();
-        if (kind === 'whatsapp') {
-          window.open(targetHref, '_blank', 'noopener,noreferrer');
-          return;
-        }
-        window.location.href = targetHref;
-      });
+      link.setAttribute('href', targetHref);
+      if (kind === 'whatsapp') {
+        link.setAttribute('target', '_blank');
+        link.setAttribute('rel', 'noopener noreferrer');
+      } else {
+        link.removeAttribute('target');
+      }
     });
   })();
 
