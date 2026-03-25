@@ -401,9 +401,20 @@
     margin-bottom: 20px;
   }
   .project-desc.compact { margin-bottom: 10px; }
+  .project-workflow {
+    margin: 0 0 14px 18px;
+    padding: 0;
+    list-style: decimal;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+  .project-workflow li { margin-bottom: 2px; }
   .project-features {
     margin: 0 0 20px 18px;
     padding: 0;
+    list-style: disc;
     font-family: var(--mono);
     font-size: 0.75rem;
     color: var(--muted);
@@ -924,11 +935,21 @@
         <div class="project-name">Business Automation Scripts</div>
         <p class="project-desc compact">Python automation suite for SMEs that automatically reconciles raw sales and M-Pesa CSV exports, builds weekly reports, and emails stakeholder summaries on schedule — saving hours of manual admin each week while reducing spreadsheet errors.</p>
         <p class="project-desc compact">Built with Pandas for reconciliation, SMTP over TLS for secure delivery, and Cron for reliable weekly execution. Security-first implementation uses environment variables (no hardcoded credentials) and sanitized audit logs to protect sensitive business data.</p>
-        <p class="project-desc compact"><span class="hl2">How it works:</span> 📥 CSV input → 🧹 Pandas reconciliation → 📊 report generation → 🔐 encrypted email delivery (SMTP TLS) → ⏰ Cron schedule</p>
-        <ul class="project-features" aria-label="Business Automation Scripts key features">
-          <li>Automates reports, reconciliation, and email dispatch.</li>
-          <li>Uses environment-based secrets, TLS transport, and no hardcoded credentials.</li>
-          <li>Runs on schedule with structured error handling and sanitized logging.</li>
+        <p class="project-desc compact"><span class="hl2">How it works:</span></p>
+        <ol class="project-workflow" aria-label="Workflow steps">
+          <li>CSV input</li>
+          <li>Pandas reconciliation</li>
+          <li>Report generation</li>
+          <li>Encrypted email delivery (SMTP TLS)</li>
+          <li>Cron schedule</li>
+        </ol>
+        <ul class="project-features" aria-label="Security and automation features">
+          <li>Automates weekly reports, reconciliation, and email dispatch.</li>
+          <li>Protects credentials with environment-based secrets and no hardcoded values.</li>
+          <li>Secures report delivery with SMTP over TLS.</li>
+          <li>Runs on schedule with Cron.</li>
+          <li>Includes structured error handling.</li>
+          <li>Keeps sanitized audit logs.</li>
         </ul>
         <div class="project-stack">
           <span class="stack-item">Python</span>
