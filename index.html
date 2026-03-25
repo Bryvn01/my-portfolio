@@ -863,12 +863,28 @@
   <div class="projects-grid">
     <div class="project-card reveal">
       <div class="project-header">
-        <span class="project-badge">FEATURED</span>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+          <span class="project-badge">FEATURED</span>
+          <span class="project-badge" style="background:rgba(0,255,157,0.08);color:var(--accent);border-color:rgba(0,255,157,0.25);">🔐 JWT + 2FA</span>
+          <span class="project-badge" style="background:rgba(0,191,255,0.08);color:var(--accent2);border-color:rgba(0,191,255,0.25);">🛡 HMAC Webhooks</span>
+          <span class="project-badge" style="background:rgba(0,255,157,0.08);color:var(--accent);border-color:rgba(0,255,157,0.25);">⚡ Rate Limited</span>
+          <span class="project-badge" style="background:rgba(0,191,255,0.08);color:var(--accent2);border-color:rgba(0,191,255,0.25);">🔒 HSTS · CSP</span>
+        </div>
         <a href="https://github.com/Bryvn01/EasyCart" class="project-link" target="_blank" rel="noopener noreferrer">↗</a>
       </div>
       <div class="project-body">
         <div class="project-name">EasyCart</div>
         <div class="project-desc">A full-featured e-commerce platform built for the Kenyan market. Includes product management, cart system, and M-Pesa STK Push payment integration for seamless mobile checkout.</div>
+        <div class="project-desc" style="margin-top:-12px;">Built with a security-first mindset: M-Pesa payment webhooks are authenticated via HMAC-SHA256 with constant-time comparison to prevent timing attacks and webhook spoofing. Authentication uses JWT with automatic token rotation and server-side blacklisting. Every sensitive endpoint is protected by layered rate limiting — including brute-force-resistant login throttling and payment-specific caps — backed by HSTS, CSP, and CSRF-Strict headers throughout.</div>
+        <pre style="background:#060a0f;border:1px solid rgba(0,255,157,0.18);padding:14px 18px;font-family:var(--mono);font-size:0.65rem;color:#8b949e;overflow-x:auto;line-height:1.75;margin-bottom:20px;"><span style="color:var(--muted);"># utils/security_helpers.py — webhook integrity check</span>
+<span style="color:var(--accent2);">def</span> <span style="color:#fff;">verify_mpesa_signature</span>(data, signature, secret):
+    <span style="color:var(--muted);">"""Constant-time HMAC-SHA256 — prevents timing attacks."""</span>
+    expected = hmac.<span style="color:var(--accent2);">new</span>(
+        secret.encode(), data.encode(), hashlib.sha256
+    ).digest()
+    <span style="color:var(--accent2);">return</span> hmac.<span style="color:var(--accent);">compare_digest</span>(  <span style="color:var(--muted);"># safe: no early exit</span>
+        base64.b64encode(expected).decode(), signature
+    )</pre>
         <div class="project-stack">
           <span class="stack-item">Django</span>
           <span class="stack-item">React</span>
