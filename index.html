@@ -968,12 +968,34 @@
       </div>
       <div class="project-body">
         <div class="project-name">AI Client Dashboard</div>
-        <div class="project-desc">An intelligent business dashboard integrating LLM APIs to answer natural language questions about sales data, generate insights, and flag anomalies automatically.</div>
+        <p class="project-desc compact">A production-grade AI analytics dashboard where business users ask sales questions in plain English and get instant, decision-ready insights. The Django API routes each request to Claude, which interprets intent, analyzes live sales data, and returns structured outputs rendered as responsive React + Chart.js visualizations in real time. Built to drive measurable outcomes, it helps teams spot trends earlier, investigate root causes faster, and catch anomalies before they become revenue problems.</p>
+        <p class="project-desc compact"><span class="hl2">How it works:</span></p>
+        <ol class="project-workflow" aria-label="AI dashboard workflow steps">
+          <li>User question</li>
+          <li>Django API</li>
+          <li>Claude prompt orchestration</li>
+          <li>Sales data query + anomaly scan</li>
+          <li>Chart.js visualization</li>
+        </ol>
+        <div style="display:flex; flex-wrap:wrap; gap:8px; margin: 10px 0 12px;">
+          <span class="project-badge" style="background: rgba(191,111,255,0.12); color: #cf8dff; border-color: rgba(191,111,255,0.35);">🧠 Natural Language Queries</span>
+          <span class="project-badge" style="background: rgba(0,191,255,0.12); color: var(--accent2); border-color: rgba(0,191,255,0.35);">📊 Real-time Charts</span>
+          <span class="project-badge" style="background: rgba(255,80,80,0.12); color: #ff8f8f; border-color: rgba(255,80,80,0.35);">⚠️ Anomaly Detection</span>
+          <span class="project-badge" style="background: rgba(0,255,157,0.12); color: var(--accent); border-color: rgba(0,255,157,0.35);">🔍 Sales Insights</span>
+        </div>
+        <p class="project-desc compact"><span class="hl2">Sample interaction:</span><br>
+          <strong>Q:</strong> “Which products had unusual sales drops last week?”<br>
+          <strong>A:</strong> “3 products showed declines: Product A (-23%), Product B (-18%), Product C (-12%). Would you like to see regional breakdowns?”
+        </p>
+        <p class="project-desc compact"><span class="hl2">Security + stack:</span> Django REST • Claude API • React • Chart.js • API keys stored in environment variables • endpoint rate limiting.</p>
+        <p class="project-desc compact"><span class="hl2">Mock screenshot concept:</span> A dark glassmorphism dashboard with a natural-language query panel on the left, live KPI cards at the top, anomaly alerts highlighted in amber/red, and interactive sales trend charts with drill-down controls on the right.</p>
         <div class="project-stack">
-          <span class="stack-item">Django</span>
+          <span class="stack-item">Django REST</span>
           <span class="stack-item">Claude API</span>
           <span class="stack-item">React</span>
-          <span class="stack-item">Charts.js</span>
+          <span class="stack-item">Chart.js</span>
+          <span class="stack-item">Env Secrets</span>
+          <span class="stack-item">Rate Limiting</span>
         </div>
       </div>
     </div>
