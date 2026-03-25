@@ -1043,28 +1043,40 @@
     const encodedPhone = [62, 57, 60, 59, 56, 61, 50, 44, 54, 61, 58, 58];
     const encodedEmail = [78, 126, 117, 109, 98, 107, 101, 120, 109, 121, 76, 117, 109, 100, 99, 99, 34, 111, 99, 97];
     const key = 12;
+    const encodedCanonicalPhoneDigits = [62, 57, 56, 59, 62, 63, 59, 53, 58, 61, 61, 58];
     const decode = (encoded) => encoded.map((n) => String.fromCharCode(n ^ key)).join('');
     const canonicalEmail = 'Bryangitau@yahoo.com';
-    const canonicalPhoneDigits = '254723796116';
+    const MIN_PHONE_DIGITS = 10;
+    const MAX_PHONE_DIGITS = 15;
     const isValidContactEmail = (email) => {
       if (typeof email !== 'string') return false;
       const normalized = email.trim().toLowerCase();
       const basicFormat = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalized);
       return basicFormat && normalized.endsWith('@yahoo.com');
     };
-    const normalizePhoneDigits = (value) => (typeof value === 'string' ? value.replace(/\D/g, '') : '');
-    const isValidContactPhone = (phone) => /^\d{10,15}$/.test(phone);
+    const normalizePhoneDigits = (value) => {
+      if (typeof value !== 'string') {
+        console.warn('Contact phone normalization received a non-string value.');
+        return '';
+      }
+      return value.replace(/\D/g, '');
+    };
+    const isValidContactPhone = (phone) => typeof phone === 'string'
+      && phone.length >= MIN_PHONE_DIGITS
+      && phone.length <= MAX_PHONE_DIGITS
+      && /^\d+$/.test(phone);
     const getPhoneDigits = () => decode(encodedPhone);
     const getEmailAddress = () => decode(encodedEmail);
+    const getCanonicalPhoneDigits = () => decode(encodedCanonicalPhoneDigits);
     const decodedPhoneDigits = normalizePhoneDigits(getPhoneDigits());
-    const fallbackPhoneDigits = normalizePhoneDigits(canonicalPhoneDigits);
+    const fallbackPhoneDigits = normalizePhoneDigits(getCanonicalPhoneDigits());
     const phoneDigits = isValidContactPhone(decodedPhoneDigits) ? decodedPhoneDigits : fallbackPhoneDigits;
     const hasValidPhone = isValidContactPhone(phoneDigits);
     const phoneIntl = hasValidPhone ? `+${phoneDigits}` : '';
     const decodedEmail = getEmailAddress();
     const emailAddress = canonicalEmail;
     if (!hasValidPhone) {
-      console.warn('Contact phone decode mismatch detected; phone and WhatsApp links will use contact form fallback.');
+      console.warn('Contact phone validation failed; redirecting phone and WhatsApp links to contact form.');
     }
     if (!isValidContactEmail(decodedEmail) || decodedEmail.trim().toLowerCase() !== canonicalEmail.toLowerCase()) {
       console.warn('Contact email decode mismatch detected; using canonical email fallback.');
@@ -1089,7 +1101,6 @@
         } else {
           link.removeAttribute('target');
           link.removeAttribute('rel');
-          link.setAttribute('aria-label', 'Use contact form (WhatsApp temporarily unavailable)');
         }
       } else {
         link.removeAttribute('target');
@@ -1102,7 +1113,6 @@
           }
         } else if (kind === 'phone' && !hasValidPhone) {
           link.removeAttribute('rel');
-          link.setAttribute('aria-label', 'Use contact form (Phone call temporarily unavailable)');
         }
       }
     });
