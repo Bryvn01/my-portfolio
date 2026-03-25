@@ -1044,6 +1044,7 @@
     const encodedEmail = [78, 126, 117, 109, 98, 107, 101, 120, 109, 121, 76, 117, 109, 100, 99, 99, 34, 111, 99, 97];
     const key = 12;
     const decode = (encoded) => encoded.map((n) => String.fromCharCode(n ^ key)).join('');
+    const canonicalEmail = 'Bryangitau@yahoo.com';
     const isValidContactEmail = (email) => {
       if (typeof email !== 'string') return false;
       const normalized = email.trim().toLowerCase();
@@ -1055,7 +1056,6 @@
       const trimmedEmail = email.trim();
       return trimmedEmail.toLowerCase() === canonicalEmail.toLowerCase() ? canonicalEmail : trimmedEmail;
     };
-    const canonicalEmail = 'Bryangitau@yahoo.com';
     const getPhoneDigits = () => decode(encodedPhone);
     const getEmailAddress = () => decode(encodedEmail);
     const phoneDigits = getPhoneDigits();
