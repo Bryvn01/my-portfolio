@@ -978,7 +978,7 @@
       <p class="contact-text">Have a project in mind? Need automation, an M-Pesa integration, or a full web app? Let's talk. I respond within 24 hours.</p>
       <div class="contact-links">
         <a href="#contactForm" class="contact-link privacy-contact-link" data-contact-kind="email" aria-label="Send an email to Brian">
-          <span class="ico">✉</span> Email Brian
+          <span class="ico">✉</span><span class="contact-label"> Email Brian</span>
         </a>
         <a href="https://github.com/Bryvn01" target="_blank" rel="noopener noreferrer" class="contact-link">
           <span class="ico">⌥</span> github.com/Bryvn01
@@ -1069,8 +1069,8 @@
         if (kind === 'email') {
           link.removeAttribute('rel');
           link.setAttribute('aria-label', `Email ${emailAddress}`);
-          const labelNode = link.childNodes[link.childNodes.length - 1];
-          if (labelNode && labelNode.nodeType === Node.TEXT_NODE) {
+          const labelNode = link.querySelector('.contact-label');
+          if (labelNode) {
             labelNode.textContent = ` ${emailAddress}`;
           }
         }
