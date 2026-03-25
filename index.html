@@ -400,6 +400,16 @@
     line-height: 1.8;
     margin-bottom: 20px;
   }
+  .project-desc.compact { margin-bottom: 10px; }
+  .project-features {
+    margin: 0 0 20px 18px;
+    padding: 0;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+  .project-features li { margin-bottom: 4px; }
   .project-stack { display: flex; gap: 8px; flex-wrap: wrap; }
   .stack-item {
     font-family: var(--mono);
@@ -912,9 +922,14 @@
       </div>
       <div class="project-body">
         <div class="project-name">Business Automation Scripts</div>
-        <div class="project-desc">Python automation suite for SMEs that automatically reconciles raw sales and M-Pesa CSV exports, builds weekly reports, and emails stakeholder summaries on schedule — saving hours of manual admin each week while reducing spreadsheet errors. Built with Pandas for reconciliation, SMTP over TLS for secure delivery, and Cron for reliable weekly execution. Security-first implementation uses environment variables (no hardcoded credentials) and sanitized audit logs to protect sensitive business data.</div>
-        <div class="project-desc" style="margin-top:-12px;"><span class="hl2">How it works:</span> 📥 CSV input → 🧹 Pandas reconciliation → 📊 report generation → 🔐 encrypted email delivery (SMTP TLS) → ⏰ Cron schedule</div>
-        <div class="project-desc" style="margin-top:-12px;">✅ Automates reports, reconciliation, and email dispatch &nbsp;•&nbsp; ✅ Env-based secrets + TLS + no credential hardcoding &nbsp;•&nbsp; ✅ Scheduled runs, structured error handling, and sanitized logging</div>
+        <div class="project-desc compact">Python automation suite for SMEs that automatically reconciles raw sales and M-Pesa CSV exports, builds weekly reports, and emails stakeholder summaries on schedule — saving hours of manual admin each week while reducing spreadsheet errors.</div>
+        <div class="project-desc compact">Built with Pandas for reconciliation, SMTP over TLS for secure delivery, and Cron for reliable weekly execution. Security-first implementation uses environment variables (no hardcoded credentials) and sanitized audit logs to protect sensitive business data.</div>
+        <div class="project-desc compact"><span class="hl2">How it works:</span> 📥 CSV input → 🧹 Pandas reconciliation → 📊 report generation → 🔐 encrypted email delivery (SMTP TLS) → ⏰ Cron schedule</div>
+        <ul class="project-features" aria-label="Business Automation Scripts key features">
+          <li>Automates reports, reconciliation, and email dispatch.</li>
+          <li>Uses environment-based secrets, TLS transport, and no hardcoded credentials.</li>
+          <li>Runs on schedule with structured error handling and sanitized logging.</li>
+        </ul>
         <div class="project-stack">
           <span class="stack-item">Python</span>
           <span class="stack-item">Pandas</span>
