@@ -47,7 +47,7 @@ def main() -> None:
     if not normalized_email.endswith(EXPECTED_DOMAIN):
         fail(f"Decoded email must end with {EXPECTED_DOMAIN}: {decoded_email!r}")
 
-    if decoded_email != EXPECTED_EMAIL:
+    if normalized_email != EXPECTED_EMAIL.lower():
         fail(
             f"Decoded email does not match expected value. "
             f"Expected {EXPECTED_EMAIL!r}, got {decoded_email!r}"

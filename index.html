@@ -1051,10 +1051,6 @@
       const basicFormat = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalized);
       return basicFormat && normalized.endsWith('@yahoo.com');
     };
-    const toCanonicalEmail = (email) => {
-      if (typeof email !== 'string') return canonicalEmail;
-      return canonicalEmail;
-    };
     const getPhoneDigits = () => decode(encodedPhone);
     const getEmailAddress = () => decode(encodedEmail);
     const phoneDigits = getPhoneDigits();
@@ -1062,7 +1058,10 @@
     const decodedEmail = getEmailAddress();
     let emailAddress = canonicalEmail;
     if (isValidContactEmail(decodedEmail)) {
-      emailAddress = toCanonicalEmail(decodedEmail);
+      const normalizedDecodedEmail = decodedEmail.trim().toLowerCase();
+      if (normalizedDecodedEmail === canonicalEmail.toLowerCase()) {
+        emailAddress = canonicalEmail;
+      }
     }
     const whatsappUrl = `https://wa.me/${phoneDigits}`;
     const phoneUrl = `tel:${phoneIntl}`;
