@@ -38,8 +38,8 @@ def main() -> None:
     key = int(key_match.group(1))
     decoded_email = "".join(chr(value ^ key) for value in encoded_values)
 
-    basic_email = re.fullmatch(r"[^\s@]+@[^\s@]+\.[^\s@]+", decoded_email)
-    if not basic_email:
+    email_match = re.fullmatch(r"[^\s@]+@[^\s@]+\.[^\s@]+", decoded_email)
+    if not email_match:
         fail(f"Decoded email is not a valid format: {decoded_email!r}")
 
     if not decoded_email.lower().endswith(EXPECTED_DOMAIN):
