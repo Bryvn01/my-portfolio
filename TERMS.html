@@ -81,7 +81,7 @@
   <script>
   'use strict';
   (function setupLegalEmailLink() {
-    const encodedEmail = [78, 122, 121, 74, 65, 66, 95, 74, 74, 110, 77, 74, 77, 66, 66, 5, 76, 86, 64];
+    const encodedEmail = [78, 126, 117, 109, 98, 107, 101, 120, 109, 121, 76, 117, 109, 100, 99, 99, 34, 111, 99, 97];
     const key = 12;
     const emailAddress = encodedEmail.map((n) => String.fromCharCode(n ^ key)).join('');
     const legalEmailLink = document.getElementById('legalEmailLink');
