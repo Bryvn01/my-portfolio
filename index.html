@@ -10,7 +10,7 @@
 <title>Brian — Developer & Engineer </title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Syne:wght@400;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Syne:wght@400;700;800&family=VT323&display=swap" rel="stylesheet"/>
 <style>
   :root {
     --bg: #080b0f;
@@ -152,18 +152,19 @@
   .terminal-label::before { content: '> '; color: var(--muted); }
 
   .hero-name {
-    font-size: clamp(4rem, 10vw, 9rem);
-    font-weight: 800;
-    line-height: 0.9;
-    letter-spacing: -0.03em;
+    font-family: 'VT323', monospace;
+    font-weight: 400;
+    font-size: clamp(4.5rem, 11vw, 10rem);
+    line-height: 0.95;
+    letter-spacing: 0.02em;
     opacity: 0;
     animation: fadeUp 0.7s 0.5s forwards;
   }
-  .hero-name .line1 { display: block; color: #fff; }
+  .hero-name .line1 { display: block; color: var(--accent); }
   .hero-name .line2 {
     display: block;
     color: transparent;
-    -webkit-text-stroke: 1px var(--accent);
+    -webkit-text-stroke: 1px var(--muted);
   }
 
   .hero-tagline {
@@ -793,8 +794,8 @@
   <div class="hero-content">
     <div class="terminal-label">Full-Stack Developer &amp; Software Engineer — Nairobi, Kenya</div>
     <h1 class="hero-name">
-      <span class="line1">BRIAN</span>
-      <span class="line2">BUILDS.</span>
+      <span class="line1">brian.builds()</span>
+      <span class="line2" aria-hidden="true">&gt;_</span>
     </h1>
     <p class="hero-tagline">
       I craft <span class="highlight">fast, functional, and highly secure software</span> for African businesses —
