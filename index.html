@@ -11,8 +11,24 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Syne:wght@400;700;800&family=VT323&display=swap" rel="stylesheet"/>
+<script>
+  window.__portfolioThemeStorageKey = 'portfolio-theme';
+  (function initializeTheme() {
+    try {
+      const savedTheme = localStorage.getItem(window.__portfolioThemeStorageKey);
+      if (savedTheme === 'light' || savedTheme === 'dark') {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        return;
+      }
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    } catch (error) {}
+  })();
+</script>
 <style>
   :root {
+    color-scheme: dark;
     --bg: #080b0f;
     --surface: #0d1117;
     --border: #1e2d3d;
@@ -21,8 +37,46 @@
     --accent3: #ff4d6d;
     --text: #c9d1d9;
     --muted: #4a5568;
+    --heading: #ffffff;
+    --nav-bg: rgba(8,11,15,0.85);
+    --scanline: rgba(0,0,0,0.03);
+    --grid-line: rgba(0,255,157,0.03);
+    --accent-soft-bg: rgba(0,255,157,0.03);
+    --accent-soft-border: rgba(0,255,157,0.35);
+    --accent2-soft-bg: rgba(0,191,255,0.1);
+    --accent2-soft-border: rgba(0,191,255,0.35);
+    --badge-bg: rgba(0,255,157,0.1);
+    --badge-border: rgba(0,255,157,0.3);
+    --security-bg: #060a0f;
+    --security-text: #8b949e;
+    --cursor-blend: screen;
     --mono: 'Share Tech Mono', monospace;
     --sans: 'Syne', sans-serif;
+  }
+
+  [data-theme="light"] {
+    color-scheme: light;
+    --bg: #f6f8fb;
+    --surface: #ffffff;
+    --border: #d7e0ea;
+    --accent: #007f5f;
+    --accent2: #0063d1;
+    --accent3: #c02246;
+    --text: #17212b;
+    --muted: #556575;
+    --heading: #0f1720;
+    --nav-bg: rgba(246,248,251,0.9);
+    --scanline: rgba(12,20,30,0.01);
+    --grid-line: rgba(0,127,95,0.08);
+    --accent-soft-bg: rgba(0,127,95,0.07);
+    --accent-soft-border: rgba(0,127,95,0.3);
+    --accent2-soft-bg: rgba(0,99,209,0.08);
+    --accent2-soft-border: rgba(0,99,209,0.34);
+    --badge-bg: rgba(0,127,95,0.12);
+    --badge-border: rgba(0,127,95,0.28);
+    --security-bg: #eef4fb;
+    --security-text: #3d4d5b;
+    --cursor-blend: normal;
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -50,7 +104,7 @@
     z-index: 9999;
     transform: translate(-50%, -50%);
     transition: transform 0.1s, width 0.2s, height 0.2s, background 0.2s;
-    mix-blend-mode: screen;
+    mix-blend-mode: var(--cursor-blend);
   }
   .cursor-ring {
     width: 36px; height: 36px;
@@ -73,8 +127,8 @@
       0deg,
       transparent,
       transparent 2px,
-      rgba(0,0,0,0.03) 2px,
-      rgba(0,0,0,0.03) 4px
+      var(--scanline) 2px,
+      var(--scanline) 4px
     );
     pointer-events: none;
     z-index: 9000;
@@ -85,8 +139,8 @@
     position: fixed;
     inset: 0;
     background-image:
-      linear-gradient(rgba(0,255,157,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,255,157,0.03) 1px, transparent 1px);
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
     background-size: 50px 50px;
     pointer-events: none;
     z-index: 0;
@@ -98,9 +152,15 @@
     z-index: 1000;
     display: flex; align-items: center; justify-content: space-between;
     padding: 20px 60px;
-    background: rgba(8,11,15,0.85);
+    background: var(--nav-bg);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
+  }
+  .nav-controls {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    min-width: 0;
   }
   .nav-logo {
     font-family: var(--mono);
@@ -129,6 +189,32 @@
   }
   .nav-links a:hover { color: var(--accent); }
   .nav-links a:hover::after { transform: scaleX(1); }
+  .theme-toggle {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text);
+    background: transparent;
+    border: 1px solid var(--border);
+    padding: 10px 12px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+  }
+  .theme-toggle:hover {
+    border-color: var(--accent2);
+    color: var(--accent2);
+    background: var(--accent2-soft-bg);
+  }
+  .theme-toggle:focus-visible {
+    outline: 2px solid var(--accent2);
+    outline-offset: 2px;
+  }
+  .theme-toggle-icon { line-height: 1; }
 
   /* HERO */
   #hero {
@@ -200,7 +286,7 @@
     transition: box-shadow 0.3s, transform 0.2s;
   }
   .btn-primary:hover {
-    box-shadow: 0 0 30px rgba(0,255,157,0.4);
+    box-shadow: 0 0 30px var(--accent-soft-border);
     transform: translateY(-2px);
   }
   .btn-ghost {
@@ -216,8 +302,8 @@
     transition: background 0.3s, box-shadow 0.3s;
   }
   .btn-ghost:hover {
-    background: rgba(0,191,255,0.1);
-    box-shadow: 0 0 20px rgba(0,191,255,0.2);
+    background: var(--accent2-soft-bg);
+    box-shadow: 0 0 20px var(--accent2-soft-border);
   }
 
   /* Glitch effect on hover */
@@ -283,7 +369,7 @@
     font-size: clamp(2rem, 5vw, 3.5rem);
     font-weight: 800;
     letter-spacing: -0.02em;
-    color: #fff;
+    color: var(--heading);
     margin-bottom: 60px;
   }
 
@@ -329,7 +415,7 @@
   .service-name {
     font-size: 1.2rem;
     font-weight: 700;
-    color: #fff;
+    color: var(--heading);
     margin-bottom: 12px;
   }
   .service-desc {
@@ -376,9 +462,9 @@
     font-size: 0.65rem;
     letter-spacing: 0.15em;
     padding: 4px 10px;
-    background: rgba(0,255,157,0.1);
+    background: var(--badge-bg);
     color: var(--accent);
-    border: 1px solid rgba(0,255,157,0.3);
+    border: 1px solid var(--badge-border);
   }
   .project-link {
     color: var(--muted);
@@ -391,7 +477,7 @@
   .project-name {
     font-size: 1.4rem;
     font-weight: 700;
-    color: #fff;
+    color: var(--heading);
     margin-bottom: 10px;
   }
   .project-desc {
@@ -431,12 +517,12 @@
   }
   .stack-item::before { content: '#'; opacity: 0.5; }
   .security-snippet {
-    background: #060a0f;
-    border: 1px solid rgba(0,255,157,0.18);
+    background: var(--security-bg);
+    border: 1px solid var(--accent-soft-border);
     padding: 14px 18px;
     font-family: var(--mono);
     font-size: 0.65rem;
-    color: #8b949e;
+    color: var(--security-text);
     overflow-x: auto;
     line-height: 1.75;
     margin-bottom: 20px;
@@ -543,7 +629,7 @@
   .contact-link:hover {
     border-color: var(--accent);
     color: var(--accent);
-    background: rgba(0,255,157,0.03);
+    background: var(--accent-soft-bg);
   }
   .contact-link .ico { font-size: 1.1rem; width: 24px; }
   .contact-form { display: flex; flex-direction: column; gap: 16px; }
@@ -583,7 +669,7 @@
     transition: box-shadow 0.3s;
     clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
   }
-  .form-submit:hover { box-shadow: 0 0 30px rgba(0,255,157,0.35); }
+  .form-submit:hover { box-shadow: 0 0 30px var(--accent-soft-border); }
 
   .btn-primary,
   .btn-ghost,
@@ -629,12 +715,12 @@
     font-size: 0.72rem;
     color: var(--accent2);
     text-decoration: none;
-    border: 1px solid rgba(0, 191, 255, 0.35);
+    border: 1px solid var(--accent2-soft-border);
     padding: 8px 10px;
     transition: background 0.2s, border-color 0.2s;
   }
   .footer-link:hover {
-    background: rgba(0, 191, 255, 0.1);
+    background: var(--accent2-soft-bg);
     border-color: var(--accent2);
   }
   .footer-link.github {
@@ -645,7 +731,7 @@
   .gh-mark {
     width: 20px;
     height: 20px;
-    border: 1px solid rgba(0, 191, 255, 0.35);
+    border: 1px solid var(--accent2-soft-border);
     border-radius: 50%;
     display: inline-flex;
     align-items: center;
@@ -699,9 +785,15 @@
       align-items: flex-start;
       gap: 10px;
     }
+    .nav-controls {
+      width: 100%;
+      justify-content: space-between;
+      gap: 10px;
+    }
     .nav-logo { font-size: 0.95rem; }
     .nav-links {
-      width: 100%;
+      width: auto;
+      flex: 1;
       gap: 10px;
       overflow-x: auto;
       padding-bottom: 4px;
@@ -715,6 +807,12 @@
       padding: 10px 8px;
       display: inline-flex;
       align-items: center;
+    }
+    .theme-toggle {
+      white-space: nowrap;
+      padding: 10px;
+      font-size: 0.64rem;
+      letter-spacing: 0.08em;
     }
     #hero { padding: 136px 20px 56px; min-height: auto; }
     .hero-name { font-size: clamp(2.6rem, 16vw, 4.4rem); line-height: 0.95; }
@@ -780,11 +878,23 @@
 <!-- NAV -->
 <nav>
   <div class="nav-logo">brian<span>.dev</span></div>
-  <div class="nav-links">
-    <a href="#services">Services</a>
-    <a href="#projects">Projects</a>
-    <a href="#about">About</a>
-    <a href="#contact">Contact</a>
+  <div class="nav-controls">
+    <div class="nav-links">
+      <a href="#services">Services</a>
+      <a href="#projects">Projects</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <button
+      type="button"
+      id="themeToggle"
+      class="theme-toggle"
+      aria-label="Switch to light mode"
+      aria-pressed="false"
+    >
+      <span class="theme-toggle-icon" aria-hidden="true">☾</span>
+      <span class="theme-toggle-text">Light</span>
+    </button>
   </div>
 </nav>
 
@@ -910,7 +1020,7 @@
         <div class="project-desc">A full-featured e-commerce platform built for the Kenyan market. Includes product management, cart system, and M-Pesa STK Push payment integration for seamless mobile checkout.</div>
         <div class="project-desc" style="margin-top:-12px;">Built with a security-first mindset: M-Pesa payment webhooks are authenticated via HMAC-SHA256 with constant-time comparison to prevent timing attacks and webhook spoofing. Authentication uses JWT with automatic token rotation and server-side blacklisting. Every sensitive endpoint is protected by layered rate limiting — including brute-force-resistant login throttling and payment-specific caps — backed by HSTS, CSP, and CSRF-Strict headers throughout.</div>
         <pre class="security-snippet" aria-label="Python code: HMAC-SHA256 webhook signature verification"><span style="color:var(--muted);"># utils/security_helpers.py — webhook integrity check</span>
-<span style="color:var(--accent2);">def</span> <span style="color:#fff;">verify_mpesa_signature</span>(data, signature, secret):
+<span style="color:var(--accent2);">def</span> <span style="color:var(--heading);">verify_mpesa_signature</span>(data, signature, secret):
     <span style="color:var(--muted);">"""Constant-time HMAC-SHA256 — prevents timing attacks."""</span>
     expected = hmac.<span style="color:var(--accent2);">new</span>(
         secret.encode(), data.encode(), hashlib.sha256
@@ -1114,6 +1224,60 @@
 
 <script>
   'use strict';
+  // Theme toggle with persistence
+  (function setupThemeToggle() {
+    const STORAGE_KEY = window.__portfolioThemeStorageKey || 'portfolio-theme';
+    const root = document.documentElement;
+    const themeToggle = document.getElementById('themeToggle');
+    if (!themeToggle) return;
+
+    const iconNode = themeToggle.querySelector('.theme-toggle-icon');
+    const textNode = themeToggle.querySelector('.theme-toggle-text');
+
+    const getCurrentTheme = () => root.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+    const applyTheme = (theme) => {
+      if (theme === 'light') {
+        root.setAttribute('data-theme', 'light');
+      } else {
+        root.removeAttribute('data-theme');
+      }
+      const isLight = theme === 'light';
+      themeToggle.setAttribute('aria-pressed', String(isLight));
+      themeToggle.setAttribute('aria-label', isLight ? 'Switch to dark mode' : 'Switch to light mode');
+      if (iconNode) iconNode.textContent = isLight ? '☀' : '☾';
+      if (textNode) textNode.textContent = isLight ? 'Dark' : 'Light';
+    };
+
+    applyTheme(getCurrentTheme());
+
+    let hasUserPreference = false;
+    try {
+      const storedTheme = localStorage.getItem(STORAGE_KEY) || '';
+      hasUserPreference = storedTheme === 'light' || storedTheme === 'dark';
+    } catch (error) {
+      hasUserPreference = false;
+    }
+
+    themeToggle.addEventListener('click', () => {
+      const nextTheme = getCurrentTheme() === 'light' ? 'dark' : 'light';
+      applyTheme(nextTheme);
+      hasUserPreference = true;
+      try {
+        localStorage.setItem(STORAGE_KEY, nextTheme);
+      } catch (error) {}
+    });
+
+    if (!hasUserPreference && window.matchMedia) {
+      const media = window.matchMedia('(prefers-color-scheme: light)');
+      if (typeof media.addEventListener === 'function') {
+        media.addEventListener('change', (event) => {
+          if (hasUserPreference) return;
+          applyTheme(event.matches ? 'light' : 'dark');
+        });
+      }
+    }
+  })();
+
   // Privacy-safe contact link wiring (avoid exposing direct contact details in static markup)
   (function setupPrivateContactLinks() {
     const encodedPhone = [62, 57, 60, 59, 56, 61, 50, 44, 54, 61, 58, 58];
