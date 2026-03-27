@@ -252,6 +252,16 @@
     color: transparent;
     -webkit-text-stroke: 1px var(--muted);
   }
+  .hero-name .line2 .prompt {
+    color: var(--muted);
+    -webkit-text-stroke: 0;
+  }
+  .hero-name .line2 .prompt-cursor {
+    color: var(--muted);
+    -webkit-text-stroke: 0;
+    display: inline-block;
+    animation: blink 1s steps(1, end) infinite;
+  }
 
   .hero-tagline {
     font-family: var(--mono);
@@ -909,7 +919,7 @@
     <div class="terminal-label">Full-Stack Developer &amp; Software Engineer — Nairobi, Kenya</div>
     <h1 class="hero-name">
       <span class="line1">brian.builds()</span>
-      <span class="line2" aria-hidden="true">&gt;_</span>
+      <span class="line2" aria-hidden="true"><span class="prompt">&gt;</span><span class="prompt-cursor">_</span></span>
     </h1>
     <p class="hero-tagline">
       I craft <span class="highlight">fast, functional, and highly secure software</span> for African businesses —
