@@ -1,4 +1,4 @@
-# Brian Portfolio
+# Portfolio
 
 Professional portfolio website for Brian (Bryvn01), focused on secure engineering delivery, fintech integration, and product execution.
 
@@ -45,7 +45,7 @@ python scripts/check_contact_email.py
 
 ## Ownership and Copyright
 
-Copyright (c) 2026 Brian.
+Copyright (c) 2026 Bryvn01.
 
 All rights reserved. No part of this project may be copied, modified, distributed, or reused without explicit written permission from the copyright owner.
 
