@@ -994,9 +994,11 @@
     <div
       id="themeIndicator"
       class="theme-indicator"
+      role="status"
+      aria-label="Current theme status"
     >
       <span class="theme-indicator-icon" aria-hidden="true">☾</span>
-      <span class="theme-indicator-text">Auto</span>
+      <span class="theme-indicator-text">System</span>
       <span class="sr-only theme-indicator-announcement" aria-live="polite" aria-atomic="true"></span>
     </div>
   </div>
@@ -1376,7 +1378,7 @@
       root.setAttribute('data-theme', theme === 'light' ? 'light' : 'dark');
       const isLight = theme === 'light';
       if (iconNode) iconNode.textContent = isLight ? '☀' : '☾';
-      if (textNode) textNode.textContent = `Auto · ${isLight ? 'Light' : 'Dark'} mode`;
+      if (textNode) textNode.textContent = `System · ${isLight ? 'Light' : 'Dark'} mode`;
       if (announcementNode) {
         if (!announce) {
           announcementNode.textContent = '';
