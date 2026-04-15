@@ -968,7 +968,7 @@
     >
       <span class="theme-toggle-icon" aria-hidden="true">☾</span>
       <span class="theme-toggle-text">System</span>
-      <span class="sr-only theme-toggle-announcement">Theme follows system setting (dark mode)</span>
+      <span class="sr-only theme-toggle-announcement" aria-live="polite">Theme follows system setting</span>
     </div>
   </div>
 </nav>
@@ -1337,9 +1337,7 @@
     if (!themeToggle) return;
 
     const iconNode = themeToggle.querySelector('.theme-toggle-icon');
-    const textNode = themeToggle.querySelector('.theme-toggle-text');
     const announcementNode = themeToggle.querySelector('.theme-toggle-announcement');
-    if (textNode) textNode.textContent = 'System';
 
     const getCurrentTheme = () => root.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
     const applyTheme = (theme) => {
