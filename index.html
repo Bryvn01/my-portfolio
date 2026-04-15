@@ -179,7 +179,7 @@
     color: var(--accent2);
     background: var(--accent2-soft-bg);
   }
-  .theme-toggle:disabled {
+  .theme-toggle[aria-disabled="true"] {
     cursor: default;
     opacity: 0.85;
   }
@@ -972,7 +972,7 @@
       class="theme-toggle"
       aria-label="Theme follows system setting"
       aria-pressed="false"
-      disabled
+      aria-disabled="true"
     >
       <span class="theme-toggle-icon" aria-hidden="true">☾</span>
       <span class="theme-toggle-text">System</span>
@@ -1366,10 +1366,6 @@
       const media = window.matchMedia('(prefers-color-scheme: light)');
       if (typeof media.addEventListener === 'function') {
         media.addEventListener('change', (event) => {
-          applyTheme(event.matches ? 'light' : 'dark');
-        });
-      } else if (typeof media.addListener === 'function') {
-        media.addListener((event) => {
           applyTheme(event.matches ? 'light' : 'dark');
         });
       }
