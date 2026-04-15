@@ -13,11 +13,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Syne:wght@400;700;800&family=VT323&display=swap" rel="stylesheet"/>
 <script>
   (function initializeThemeFromSystem() {
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-      document.documentElement.setAttribute('data-theme', 'light');
-      return;
-    }
-    document.documentElement.removeAttribute('data-theme');
+    const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+    document.documentElement.setAttribute('data-theme', prefersLight ? 'light' : 'dark');
   })();
 </script>
 <style>
@@ -969,9 +966,8 @@
     <div
       id="themeToggle"
       class="theme-toggle"
-      role="status"
-      aria-live="polite"
-      aria-label="Theme follows system setting (dark mode)"
+      role="img"
+      aria-label="Theme follows system setting"
     >
       <span class="theme-toggle-icon" aria-hidden="true">☾</span>
       <span class="theme-toggle-text">System</span>
@@ -1347,11 +1343,7 @@
 
     const getCurrentTheme = () => root.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
     const applyTheme = (theme) => {
-      if (theme === 'light') {
-        root.setAttribute('data-theme', 'light');
-      } else {
-        root.removeAttribute('data-theme');
-      }
+      root.setAttribute('data-theme', theme === 'light' ? 'light' : 'dark');
       const isLight = theme === 'light';
       themeToggle.setAttribute('aria-label', `Theme follows system setting (${isLight ? 'light' : 'dark'} mode)`);
       if (iconNode) iconNode.textContent = isLight ? '☀' : '☾';
