@@ -13,7 +13,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Syne:wght@400;700;800&family=VT323&display=swap" rel="stylesheet"/>
 <script>
   (function initializeThemeFromSystem() {
-    const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+    const supportsMatchMedia = typeof window.matchMedia === 'function';
+    // Intentional fallback: if system theme detection is unavailable, default to dark mode.
+    const prefersLight = supportsMatchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
     document.documentElement.setAttribute('data-theme', prefersLight ? 'light' : 'dark');
   })();
 </script>
@@ -182,7 +184,7 @@
   }
   .nav-links a:hover { color: var(--accent); }
   .nav-links a:hover::after { transform: scaleX(1); }
-  .theme-toggle {
+  .theme-indicator {
     font-family: var(--mono);
     font-size: 0.68rem;
     letter-spacing: 0.12em;
@@ -199,7 +201,7 @@
     cursor: default;
     opacity: 0.85;
   }
-  .theme-toggle-icon { line-height: 1; }
+  .theme-indicator-icon { line-height: 1; }
   .sr-only {
     position: absolute;
     width: 1px;
@@ -916,7 +918,7 @@
       display: inline-flex;
       align-items: center;
     }
-    .theme-toggle {
+    .theme-indicator {
       white-space: nowrap;
       padding: 10px;
       font-size: 0.64rem;
@@ -990,12 +992,12 @@
       <a href="#contact">Contact</a>
     </div>
     <div
-      id="themeToggle"
-      class="theme-toggle"
+      id="themeIndicator"
+      class="theme-indicator"
     >
-      <span class="theme-toggle-icon" aria-hidden="true">☾</span>
-      <span class="theme-toggle-text">Auto</span>
-      <span class="sr-only theme-toggle-announcement" aria-live="polite"></span>
+      <span class="theme-indicator-icon" aria-hidden="true">☾</span>
+      <span class="theme-indicator-text">Auto</span>
+      <span class="sr-only theme-indicator-announcement" aria-live="polite"></span>
     </div>
   </div>
 </nav>
@@ -1360,11 +1362,11 @@
   // Theme indicator that follows system preference
   (function setupSystemThemeIndicator() {
     const root = document.documentElement;
-    const themeToggle = document.getElementById('themeToggle');
-    if (!themeToggle) return;
+    const themeIndicator = document.getElementById('themeIndicator');
+    if (!themeIndicator) return;
 
-    const iconNode = themeToggle.querySelector('.theme-toggle-icon');
-    const announcementNode = themeToggle.querySelector('.theme-toggle-announcement');
+    const iconNode = themeIndicator.querySelector('.theme-indicator-icon');
+    const announcementNode = themeIndicator.querySelector('.theme-indicator-announcement');
 
     const getCurrentTheme = () => root.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
     const applyTheme = (theme, announce = true) => {
@@ -1372,7 +1374,7 @@
       const isLight = theme === 'light';
       if (iconNode) iconNode.textContent = isLight ? '☀' : '☾';
       if (announcementNode) {
-        announcementNode.textContent = announce ? `Theme changed to ${isLight ? 'light' : 'dark'} mode` : '';
+        announcementNode.textContent = announce ? `System theme detected: ${isLight ? 'light' : 'dark'} mode` : '';
       }
     };
 
