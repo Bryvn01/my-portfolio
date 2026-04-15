@@ -966,7 +966,6 @@
     <div
       id="themeToggle"
       class="theme-toggle"
-      role="img"
       aria-label="Theme follows system setting"
     >
       <span class="theme-toggle-icon" aria-hidden="true">☾</span>
@@ -1340,6 +1339,7 @@
 
     const iconNode = themeToggle.querySelector('.theme-toggle-icon');
     const textNode = themeToggle.querySelector('.theme-toggle-text');
+    if (textNode) textNode.textContent = 'System';
 
     const getCurrentTheme = () => root.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
     const applyTheme = (theme) => {
@@ -1347,7 +1347,6 @@
       const isLight = theme === 'light';
       themeToggle.setAttribute('aria-label', `Theme follows system setting (${isLight ? 'light' : 'dark'} mode)`);
       if (iconNode) iconNode.textContent = isLight ? '☀' : '☾';
-      if (textNode) textNode.textContent = 'System';
     };
 
     applyTheme(getCurrentTheme());
