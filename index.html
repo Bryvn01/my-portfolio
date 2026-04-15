@@ -998,7 +998,7 @@
       aria-label="Current theme status"
     >
       <span class="theme-indicator-icon" aria-hidden="true">☾</span>
-      <span class="theme-indicator-text">System · Dark mode</span>
+      <span class="theme-indicator-text">System theme</span>
       <span class="sr-only theme-indicator-announcement" aria-live="polite" aria-atomic="true"></span>
     </div>
   </div>
@@ -1370,7 +1370,8 @@
     const iconNode = themeIndicator.querySelector('.theme-indicator-icon');
     const textNode = themeIndicator.querySelector('.theme-indicator-text');
     const announcementNode = themeIndicator.querySelector('.theme-indicator-announcement');
-    // Small delay improves live-region announcement reliability across some screen readers.
+    // Small delay improves live-region announcement reliability across some screen readers
+    // while keeping spoken updates effectively immediate for users.
     const ANNOUNCEMENT_DELAY_MS = 100;
 
     const getCurrentTheme = () => root.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
