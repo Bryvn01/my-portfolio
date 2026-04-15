@@ -1367,6 +1367,8 @@
 
     const iconNode = themeIndicator.querySelector('.theme-indicator-icon');
     const announcementNode = themeIndicator.querySelector('.theme-indicator-announcement');
+    // Small delay improves live-region announcement pickup across screen readers.
+    const ANNOUNCEMENT_DELAY_MS = 100;
 
     const getCurrentTheme = () => root.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
     const applyTheme = (theme, announce = true) => {
@@ -1381,7 +1383,7 @@
           announcementNode.textContent = '';
           window.setTimeout(() => {
             announcementNode.textContent = message;
-          }, 100);
+          }, ANNOUNCEMENT_DELAY_MS);
         }
       }
     };
