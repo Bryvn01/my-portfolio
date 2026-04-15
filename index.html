@@ -968,7 +968,7 @@
     >
       <span class="theme-toggle-icon" aria-hidden="true">☾</span>
       <span class="theme-toggle-text">System</span>
-      <span class="sr-only theme-toggle-announcement" aria-live="polite">Theme follows system setting</span>
+      <span class="sr-only theme-toggle-announcement" aria-live="polite"></span>
     </div>
   </div>
 </nav>
@@ -1340,20 +1340,22 @@
     const announcementNode = themeToggle.querySelector('.theme-toggle-announcement');
 
     const getCurrentTheme = () => root.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
-    const applyTheme = (theme) => {
+    const applyTheme = (theme, announce = true) => {
       root.setAttribute('data-theme', theme === 'light' ? 'light' : 'dark');
       const isLight = theme === 'light';
       if (iconNode) iconNode.textContent = isLight ? '☀' : '☾';
-      if (announcementNode) announcementNode.textContent = `Theme follows system setting (${isLight ? 'light' : 'dark'} mode)`;
+      if (announcementNode) {
+        announcementNode.textContent = announce ? `Theme changed to ${isLight ? 'light' : 'dark'} mode` : '';
+      }
     };
 
-    applyTheme(getCurrentTheme());
+    applyTheme(getCurrentTheme(), false);
 
     if (window.matchMedia) {
       const media = window.matchMedia('(prefers-color-scheme: light)');
       if (typeof media.addEventListener === 'function') {
         media.addEventListener('change', (event) => {
-          applyTheme(event.matches ? 'light' : 'dark');
+          applyTheme(event.matches ? 'light' : 'dark', true);
         });
       }
     }
