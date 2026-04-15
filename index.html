@@ -12,18 +12,11 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Syne:wght@400;700;800&family=VT323&display=swap" rel="stylesheet"/>
 <script>
-  window.__portfolioThemeStorageKey = 'portfolio-theme';
-  (function initializeTheme() {
-    try {
-      const savedTheme = localStorage.getItem(window.__portfolioThemeStorageKey);
-      if (savedTheme === 'light' || savedTheme === 'dark') {
-        document.documentElement.setAttribute('data-theme', savedTheme);
-        return;
-      }
-      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-        document.documentElement.setAttribute('data-theme', 'light');
-      }
-    } catch (error) {}
+  (function initializeThemeFromSystem() {
+    const supportsMatchMedia = typeof window.matchMedia === 'function';
+    // Intentional fallback: if system theme detection is unavailable, default to dark mode.
+    const prefersLight = supportsMatchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+    document.documentElement.setAttribute('data-theme', prefersLight ? 'light' : 'dark');
   })();
 </script>
 <style>
@@ -77,6 +70,33 @@
     --security-bg: #eef4fb;
     --security-text: #3d4d5b;
     --cursor-blend: normal;
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme]) {
+      color-scheme: light;
+      --bg: #f6f8fb;
+      --surface: #ffffff;
+      --border: #d7e0ea;
+      --accent: #007f5f;
+      --accent2: #0063d1;
+      --accent3: #c02246;
+      --text: #17212b;
+      --muted: #556575;
+      --heading: #0f1720;
+      --nav-bg: rgba(246,248,251,0.9);
+      --scanline: rgba(12,20,30,0.004);
+      --grid-line: rgba(0,127,95,0.08);
+      --accent-soft-bg: rgba(0,127,95,0.07);
+      --accent-soft-border: rgba(0,127,95,0.3);
+      --accent2-soft-bg: rgba(0,99,209,0.08);
+      --accent2-soft-border: rgba(0,99,209,0.34);
+      --badge-bg: rgba(0,127,95,0.12);
+      --badge-border: rgba(0,127,95,0.28);
+      --security-bg: #eef4fb;
+      --security-text: #3d4d5b;
+      --cursor-blend: normal;
+    }
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -164,7 +184,7 @@
   }
   .nav-links a:hover { color: var(--accent); }
   .nav-links a:hover::after { transform: scaleX(1); }
-  .theme-toggle {
+  .theme-indicator {
     font-family: var(--mono);
     font-size: 0.68rem;
     letter-spacing: 0.12em;
@@ -177,19 +197,22 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    cursor: pointer;
     transition: border-color 0.2s, color 0.2s, background 0.2s;
+    cursor: default;
+    opacity: 0.85;
   }
-  .theme-toggle:hover {
-    border-color: var(--accent2);
-    color: var(--accent2);
-    background: var(--accent2-soft-bg);
+  .theme-indicator-icon { line-height: 1; }
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
   }
-  .theme-toggle:focus-visible {
-    outline: 2px solid var(--accent2);
-    outline-offset: 2px;
-  }
-  .theme-toggle-icon { line-height: 1; }
 
   /* HERO */
   #hero {
@@ -895,7 +918,7 @@
       display: inline-flex;
       align-items: center;
     }
-    .theme-toggle {
+    .theme-indicator {
       white-space: nowrap;
       padding: 10px;
       font-size: 0.64rem;
@@ -968,16 +991,16 @@
       <a href="#about">About</a>
       <a href="#contact">Contact</a>
     </div>
-    <button
-      type="button"
-      id="themeToggle"
-      class="theme-toggle"
-      aria-label="Switch to light mode"
-      aria-pressed="false"
+    <div
+      id="themeIndicator"
+      class="theme-indicator"
+      role="status"
+      aria-label="Current theme status"
     >
-      <span class="theme-toggle-icon" aria-hidden="true">☾</span>
-      <span class="theme-toggle-text">Light</span>
-    </button>
+      <span class="theme-indicator-icon" aria-hidden="true">☾</span>
+      <span class="theme-indicator-text">System theme</span>
+      <span class="sr-only theme-indicator-announcement" aria-live="polite" aria-atomic="true"></span>
+    </div>
   </div>
 </nav>
 
@@ -1338,55 +1361,46 @@
 
 <script>
   'use strict';
-  // Theme toggle with persistence
-  (function setupThemeToggle() {
-    const STORAGE_KEY = window.__portfolioThemeStorageKey || 'portfolio-theme';
+  // Theme indicator that follows system preference
+  (function setupSystemThemeIndicator() {
     const root = document.documentElement;
-    const themeToggle = document.getElementById('themeToggle');
-    if (!themeToggle) return;
+    const themeIndicator = document.getElementById('themeIndicator');
+    if (!themeIndicator) return;
 
-    const iconNode = themeToggle.querySelector('.theme-toggle-icon');
-    const textNode = themeToggle.querySelector('.theme-toggle-text');
+    const iconNode = themeIndicator.querySelector('.theme-indicator-icon');
+    const textNode = themeIndicator.querySelector('.theme-indicator-text');
+    const announcementNode = themeIndicator.querySelector('.theme-indicator-announcement');
+    // Small delay improves live-region announcement reliability across some screen readers
+    // while keeping spoken updates effectively immediate for users.
+    const ANNOUNCEMENT_DELAY_MS = 100;
 
     const getCurrentTheme = () => root.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
-    const applyTheme = (theme) => {
-      if (theme === 'light') {
-        root.setAttribute('data-theme', 'light');
-      } else {
-        root.removeAttribute('data-theme');
-      }
+    const applyTheme = (theme, announce = true) => {
+      root.setAttribute('data-theme', theme === 'light' ? 'light' : 'dark');
       const isLight = theme === 'light';
-      themeToggle.setAttribute('aria-pressed', String(isLight));
-      themeToggle.setAttribute('aria-label', isLight ? 'Switch to dark mode' : 'Switch to light mode');
       if (iconNode) iconNode.textContent = isLight ? '☀' : '☾';
-      if (textNode) textNode.textContent = isLight ? 'Dark' : 'Light';
+      if (textNode) textNode.textContent = `System · ${isLight ? 'Light' : 'Dark'} mode`;
+      if (announcementNode) {
+        if (!announce) {
+          announcementNode.textContent = '';
+        } else {
+          const message = `System theme detected: ${isLight ? 'light' : 'dark'} mode`;
+          // Reset first so repeated announcements are treated as a fresh update.
+          announcementNode.textContent = '';
+          window.setTimeout(() => {
+            announcementNode.textContent = message;
+          }, ANNOUNCEMENT_DELAY_MS);
+        }
+      }
     };
 
-    applyTheme(getCurrentTheme());
+    applyTheme(getCurrentTheme(), false);
 
-    let hasUserPreference = false;
-    try {
-      const storedTheme = localStorage.getItem(STORAGE_KEY) || '';
-      hasUserPreference = storedTheme === 'light' || storedTheme === 'dark';
-    } catch (error) {
-      hasUserPreference = false;
-    }
-
-    themeToggle.addEventListener('click', () => {
-      const nextTheme = getCurrentTheme() === 'light' ? 'dark' : 'light';
-      applyTheme(nextTheme);
-      hasUserPreference = true;
-      try {
-        localStorage.setItem(STORAGE_KEY, nextTheme);
-      } catch (error) {}
-    });
-
-    if (!hasUserPreference && window.matchMedia) {
+    if (window.matchMedia) {
       const media = window.matchMedia('(prefers-color-scheme: light)');
       if (typeof media.addEventListener === 'function') {
         media.addEventListener('change', (event) => {
-          if (hasUserPreference) return;
-          applyTheme(event.matches ? 'light' : 'dark');
+          applyTheme(event.matches ? 'light' : 'dark', true);
         });
       }
     }
