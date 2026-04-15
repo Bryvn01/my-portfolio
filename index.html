@@ -1366,6 +1366,7 @@
     if (!themeIndicator) return;
 
     const iconNode = themeIndicator.querySelector('.theme-indicator-icon');
+    const textNode = themeIndicator.querySelector('.theme-indicator-text');
     const announcementNode = themeIndicator.querySelector('.theme-indicator-announcement');
     // Small delay improves live-region announcement pickup across screen readers.
     const ANNOUNCEMENT_DELAY_MS = 100;
@@ -1375,6 +1376,7 @@
       root.setAttribute('data-theme', theme === 'light' ? 'light' : 'dark');
       const isLight = theme === 'light';
       if (iconNode) iconNode.textContent = isLight ? '☀' : '☾';
+      if (textNode) textNode.textContent = `Auto · ${isLight ? 'Light' : 'Dark'}`;
       if (announcementNode) {
         if (!announce) {
           announcementNode.textContent = '';
