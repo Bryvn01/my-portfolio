@@ -39,7 +39,7 @@
     --muted: #4a5568;
     --heading: #ffffff;
     --nav-bg: rgba(8,11,15,0.85);
-    --scanline: rgba(0,0,0,0.03);
+    --scanline: rgba(0,0,0,0.012);
     --grid-line: rgba(0,255,157,0.03);
     --accent-soft-bg: rgba(0,255,157,0.03);
     --accent-soft-border: rgba(0,255,157,0.35);
@@ -66,7 +66,7 @@
     --muted: #556575;
     --heading: #0f1720;
     --nav-bg: rgba(246,248,251,0.9);
-    --scanline: rgba(12,20,30,0.01);
+    --scanline: rgba(12,20,30,0.004);
     --grid-line: rgba(0,127,95,0.08);
     --accent-soft-bg: rgba(0,127,95,0.07);
     --accent-soft-border: rgba(0,127,95,0.3);
@@ -91,31 +91,6 @@
     color: var(--text);
     font-family: var(--sans);
     overflow-x: hidden;
-    cursor: none;
-  }
-
-  /* Custom cursor */
-  .cursor {
-    width: 12px; height: 12px;
-    background: var(--accent);
-    border-radius: 50%;
-    position: fixed;
-    pointer-events: none;
-    z-index: 9999;
-    transform: translate(-50%, -50%);
-    transition: transform 0.1s, width 0.2s, height 0.2s, background 0.2s;
-    mix-blend-mode: var(--cursor-blend);
-  }
-  .cursor-ring {
-    width: 36px; height: 36px;
-    border: 1px solid var(--accent);
-    border-radius: 50%;
-    position: fixed;
-    pointer-events: none;
-    z-index: 9998;
-    transform: translate(-50%, -50%);
-    transition: transform 0.15s ease-out, width 0.2s, height 0.2s;
-    opacity: 0.5;
   }
 
   /* Scanlines overlay */
@@ -240,8 +215,8 @@
   .hero-name {
     font-family: 'VT323', monospace;
     font-weight: 400;
-    font-size: clamp(4.5rem, 11vw, 10rem);
-    line-height: 0.95;
+    font-size: clamp(2.7rem, 6.5vw, 5.8rem);
+    line-height: 1.05;
     letter-spacing: 0.02em;
     opacity: 0;
     animation: fadeUp 0.7s 0.5s forwards;
@@ -274,12 +249,29 @@
     animation: fadeUp 0.7s 0.8s forwards;
   }
   .hero-tagline .highlight { color: var(--accent2); }
+  .hero-cred {
+    margin-top: 18px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.9s forwards;
+  }
+  .hero-cred-item {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    color: var(--accent2);
+    border: 1px solid var(--accent2-soft-border);
+    background: var(--accent2-soft-bg);
+    padding: 6px 10px;
+  }
 
   .hero-cta {
-    margin-top: 48px;
+    margin-top: 34px;
     display: flex; gap: 16px; flex-wrap: wrap;
     opacity: 0;
-    animation: fadeUp 0.7s 1s forwards;
+    animation: fadeUp 0.7s 1.05s forwards;
   }
   .btn-primary {
     font-family: var(--mono);
@@ -397,7 +389,6 @@
     position: relative;
     overflow: hidden;
     transition: border-color 0.3s, transform 0.3s;
-    cursor: none;
   }
   .service-card::before {
     content: '';
@@ -498,6 +489,36 @@
     margin-bottom: 20px;
   }
   .project-desc.compact { margin-bottom: 10px; }
+  .project-cco-label {
+    color: var(--accent2);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-right: 6px;
+  }
+  .project-metric-note {
+    display: inline-block;
+    margin-top: 4px;
+    color: var(--accent);
+    font-size: 0.66rem;
+    letter-spacing: 0.08em;
+  }
+  .projects-cta-row {
+    grid-column: 1 / -1;
+    margin-top: -2px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .projects-cta-copy {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+    line-height: 1.7;
+  }
   .project-workflow {
     margin: 0 0 14px 18px;
     padding: 0;
@@ -536,6 +557,59 @@
     overflow-x: auto;
     line-height: 1.75;
     margin-bottom: 20px;
+  }
+
+  /* CASE STUDIES */
+  #case-studies {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .case-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 24px;
+  }
+  .case-card {
+    border: 1px solid var(--border);
+    background: var(--bg);
+    padding: 28px 24px;
+  }
+  .case-head {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .case-title {
+    color: var(--heading);
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+  .case-section {
+    margin-bottom: 14px;
+    border-top: 1px dashed var(--border);
+    padding-top: 12px;
+  }
+  .case-section h3 {
+    font-family: var(--mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .case-section p,
+  .case-section li {
+    font-family: var(--mono);
+    font-size: 0.74rem;
+    color: var(--muted);
+    line-height: 1.75;
+  }
+  .case-section ul {
+    margin: 0 0 0 16px;
+    padding: 0;
   }
 
   /* ABOUT */
@@ -675,7 +749,6 @@
     color: var(--bg);
     border: none;
     font-weight: 700;
-    cursor: none;
     transition: box-shadow 0.3s;
     clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
   }
@@ -829,8 +902,9 @@
       letter-spacing: 0.08em;
     }
     #hero { padding: 136px 20px 56px; min-height: auto; }
-    .hero-name { font-size: clamp(2.6rem, 16vw, 4.4rem); line-height: 0.95; }
+    .hero-name { font-size: clamp(2.2rem, 11vw, 3.5rem); line-height: 1.08; }
     .hero-tagline { margin-top: 24px; font-size: 0.92rem; line-height: 1.75; }
+    .hero-cred { margin-top: 14px; }
     .hero-cta { margin-top: 32px; gap: 12px; }
     .btn-primary, .btn-ghost {
       width: 100%;
@@ -843,7 +917,10 @@
     .projects-grid { grid-template-columns: 1fr; gap: 16px; }
     .project-header { padding: 20px 20px 0; }
     .project-body { padding: 16px 20px 20px; }
+    .projects-cta-row { padding: 16px; flex-direction: column; align-items: flex-start; }
+    .projects-cta-row .btn-primary { width: 100%; text-align: center; }
     .service-card { padding: 28px 22px; }
+    .case-grid { grid-template-columns: 1fr; }
     .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 32px; }
     .contact-link { padding: 14px; word-break: break-word; }
     footer {
@@ -864,12 +941,6 @@
     .skill-info { font-size: 0.68rem; }
   }
 
-  /* Accessibility & Mobile UX */
-  @media (pointer: coarse) {
-    body, a, button, .service-card, .form-submit { cursor: auto !important; }
-    .cursor, .cursor-ring { display: none !important; }
-  }
-
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
       animation-duration: 0.01ms !important;
@@ -885,8 +956,6 @@
 </head>
 <body>
 
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
 <div class="grid-bg"></div>
 
 <!-- NAV -->
@@ -918,16 +987,19 @@
   <div class="hero-content">
     <div class="terminal-label">Full-Stack Developer &amp; Software Engineer — Nairobi, Kenya</div>
     <h1 class="hero-name">
-      <span class="line1">brian.builds()</span>
-      <span class="line2" aria-hidden="true"><span class="prompt">&gt;</span><span class="prompt-cursor">_</span></span>
+      <span class="line1">I build secure fintech and automation systems that ship reliably.</span>
     </h1>
     <p class="hero-tagline">
-      I craft <span class="highlight">fast, functional, and highly secure software</span> for African businesses —
-      from reliable M-Pesa integrations to safe AI-powered tools. Built with a security-first mindset, your engineering problems are solved.
+      Full-stack engineer based in Nairobi helping teams integrate M-Pesa, harden critical flows, and deliver production software with measurable business outcomes.
     </p>
+    <div class="hero-cred" aria-label="Credibility snapshot">
+      <span class="hero-cred-item">2+ Years Building</span>
+      <span class="hero-cred-item">10+ Projects Shipped</span>
+      <span class="hero-cred-item">Fintech • Automation • Full-Stack</span>
+    </div>
     <div class="hero-cta">
-      <a href="#projects" class="btn-primary">View Work</a>
-      <a href="#contact" class="btn-ghost">Hire Me</a>
+      <a href="#case-studies" class="btn-primary">View Case Studies</a>
+      <a href="#contact" class="btn-ghost">Book Intro Call</a>
     </div>
   </div>
 
@@ -1022,26 +1094,17 @@
       <div class="project-header">
         <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
           <span class="project-badge">FEATURED</span>
-          <span class="project-badge" style="background:rgba(0,255,157,0.08);color:var(--accent);border-color:rgba(0,255,157,0.25);">🔐 JWT + 2FA</span>
-          <span class="project-badge" style="background:rgba(0,191,255,0.08);color:var(--accent2);border-color:rgba(0,191,255,0.25);">🛡 HMAC Webhooks</span>
-          <span class="project-badge" style="background:rgba(0,255,157,0.08);color:var(--accent);border-color:rgba(0,255,157,0.25);">⚡ Rate Limited</span>
-          <span class="project-badge" style="background:rgba(0,191,255,0.08);color:var(--accent2);border-color:rgba(0,191,255,0.25);">🔒 HSTS · CSP</span>
+          <span class="project-badge" style="background:rgba(0,255,157,0.08);color:var(--accent);border-color:rgba(0,255,157,0.25);">Role: End-to-End Builder</span>
+          <span class="project-badge" style="background:rgba(0,191,255,0.08);color:var(--accent2);border-color:rgba(0,191,255,0.25);">Status: Public Repo</span>
+          <span class="project-badge" style="background:rgba(255,77,109,0.08);color:var(--accent3);border-color:rgba(255,77,109,0.25);">Timeframe: [Add Verified Dates]</span>
         </div>
         <a href="https://github.com/Bryvn01/EasyCart" class="project-link" target="_blank" rel="noopener noreferrer">↗</a>
       </div>
       <div class="project-body">
         <div class="project-name">EasyCart</div>
-        <div class="project-desc">A full-featured e-commerce platform built for the Kenyan market. Includes product management, cart system, and M-Pesa STK Push payment integration for seamless mobile checkout.</div>
-        <div class="project-desc" style="margin-top:-12px;">Built with a security-first mindset: M-Pesa payment webhooks are authenticated via HMAC-SHA256 with constant-time comparison to prevent timing attacks and webhook spoofing. Authentication uses JWT with automatic token rotation and server-side blacklisting. Every sensitive endpoint is protected by layered rate limiting — including brute-force-resistant login throttling and payment-specific caps — backed by HSTS, CSP, and CSRF-Strict headers throughout.</div>
-        <pre class="security-snippet" aria-label="Python code: HMAC-SHA256 webhook signature verification"><span style="color:var(--muted);"># utils/security_helpers.py — webhook integrity check</span>
-<span style="color:var(--accent2);">def</span> <span style="color:var(--heading);">verify_mpesa_signature</span>(data, signature, secret):
-    <span style="color:var(--muted);">"""Constant-time HMAC-SHA256 — prevents timing attacks."""</span>
-    expected = hmac.<span style="color:var(--accent2);">new</span>(
-        secret.encode(), data.encode(), hashlib.sha256
-    ).digest()
-    <span style="color:var(--accent2);">return</span> hmac.<span style="color:var(--accent);">compare_digest</span>(  <span style="color:var(--muted);"># safe: no early exit</span>
-        base64.b64encode(expected).decode(), signature
-    )</pre>
+        <p class="project-desc compact"><span class="project-cco-label">Context:</span>Kenyan e-commerce teams needed a checkout flow that supports M-Pesa reliably while meeting modern security expectations.</p>
+        <p class="project-desc compact"><span class="project-cco-label">Ownership:</span>Owned architecture and delivery end-to-end (Django + React), implemented STK Push, webhook verification, auth hardening, and rate-limiting strategy.</p>
+        <p class="project-desc compact"><span class="project-cco-label">Outcome:</span>Improved payment reliability by <strong>[X%]</strong>, reduced failed/invalid callback handling time by <strong>[Y%]</strong>, and supported <strong>[N]+</strong> secure checkout attempts per day.<br><span class="project-metric-note">Replace placeholders with measured values before publishing.</span></p>
         <div class="project-stack">
           <span class="stack-item">Django</span>
           <span class="stack-item">React</span>
@@ -1053,29 +1116,18 @@
     </div>
     <div class="project-card reveal">
       <div class="project-header">
-        <span class="project-badge" style="background: rgba(0,191,255,0.1); color: var(--accent2); border-color: rgba(0,191,255,0.3);">AUTOMATION</span>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+          <span class="project-badge" style="background: rgba(0,191,255,0.1); color: var(--accent2); border-color: rgba(0,191,255,0.3);">AUTOMATION</span>
+          <span class="project-badge" style="background:rgba(0,255,157,0.08);color:var(--accent);border-color:rgba(0,255,157,0.25);">Role: Builder</span>
+          <span class="project-badge" style="background:rgba(255,77,109,0.08);color:var(--accent3);border-color:rgba(255,77,109,0.25);">Timeframe: [Add Verified Dates]</span>
+        </div>
         <span class="project-link" style="color: var(--muted);">🔒</span>
       </div>
       <div class="project-body">
         <div class="project-name">Business Automation Scripts</div>
-        <p class="project-desc compact">Python automation suite for SMEs that automatically reconciles raw sales and M-Pesa CSV exports, builds weekly reports, and emails stakeholder summaries on schedule — saving hours of manual admin each week while reducing spreadsheet errors.</p>
-        <p class="project-desc compact">Built with Pandas for reconciliation, SMTP over TLS for secure delivery, and Cron for reliable weekly execution. Security-first implementation uses environment variables (no hardcoded credentials) and sanitized audit logs to protect sensitive business data.</p>
-        <p class="project-desc compact"><span class="hl2">How it works:</span></p>
-        <ol class="project-workflow" aria-label="Workflow steps">
-          <li>CSV input</li>
-          <li>Pandas reconciliation</li>
-          <li>Report generation</li>
-          <li>Encrypted email delivery (SMTP TLS)</li>
-          <li>Cron schedule</li>
-        </ol>
-        <ul class="project-features" aria-label="Security and automation features">
-          <li>Automates weekly reports, reconciliation, and email dispatch.</li>
-          <li>Protects credentials with environment-based secrets and no hardcoded values.</li>
-          <li>Secures report delivery with SMTP over TLS.</li>
-          <li>Runs on schedule with Cron.</li>
-          <li>Includes structured error handling.</li>
-          <li>Keeps sanitized audit logs.</li>
-        </ul>
+        <p class="project-desc compact"><span class="project-cco-label">Context:</span>SMEs were spending hours each week manually reconciling sales and M-Pesa exports, causing delays and spreadsheet errors.</p>
+        <p class="project-desc compact"><span class="project-cco-label">Ownership:</span>Designed and built the Python automation pipeline (reconciliation, report generation, scheduled execution, secure email delivery).</p>
+        <p class="project-desc compact"><span class="project-cco-label">Outcome:</span>Reduced weekly manual reporting effort by <strong>[X hours]</strong>, cut reconciliation errors by <strong>[Y%]</strong>, and delivered reports consistently on schedule for <strong>[N]</strong> stakeholders.<br><span class="project-metric-note">Replace placeholders with measured values before publishing.</span></p>
         <div class="project-stack">
           <span class="stack-item">Python</span>
           <span class="stack-item">Pandas</span>
@@ -1085,6 +1137,10 @@
           <span class="stack-item">Audit Logging</span>
         </div>
       </div>
+    </div>
+    <div class="projects-cta-row reveal">
+      <p class="projects-cta-copy">If this is the level of delivery you need, let’s align on scope, timeline, and constraints in a short intro call.</p>
+      <a href="#contact" class="btn-primary">Book Intro Call</a>
     </div>
     <div class="project-card reveal">
       <div class="project-header">
@@ -1110,6 +1166,46 @@
         </div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- CASE STUDIES -->
+<section id="case-studies">
+  <div class="section-label">Depth</div>
+  <h2 class="section-title">Case Studies</h2>
+  <div class="case-grid">
+    <article class="case-card reveal" aria-label="EasyCart case study structure">
+      <div class="case-head">
+        <span class="project-badge">EasyCart</span>
+        <span class="project-badge" style="background:rgba(0,255,157,0.08);color:var(--accent);border-color:rgba(0,255,157,0.25);">Role: End-to-End Builder</span>
+        <span class="project-badge" style="background:rgba(0,191,255,0.08);color:var(--accent2);border-color:rgba(0,191,255,0.25);">Status: Public Repo</span>
+        <span class="project-badge" style="background:rgba(255,77,109,0.08);color:var(--accent3);border-color:rgba(255,77,109,0.25);">Timeframe: [Add Verified Dates]</span>
+      </div>
+      <div class="case-title">Secure M-Pesa Checkout Platform</div>
+      <section class="case-section"><h3>Problem &amp; Constraints</h3><p>Document business context, transaction-critical paths, and non-negotiable security/reliability constraints.</p></section>
+      <section class="case-section"><h3>Role &amp; Ownership</h3><p>Clarify decisions you owned directly vs implementation support from collaborators.</p></section>
+      <section class="case-section"><h3>Architecture &amp; Key Decisions</h3><p>Explain why core choices were made (API boundary, auth model, webhook integrity, payment flow design).</p></section>
+      <section class="case-section"><h3>Execution</h3><p>Summarize milestone plan, delivery sequencing, and risk controls used to ship safely.</p></section>
+      <section class="case-section"><h3>Security &amp; Reliability</h3><p>List controls and detection/handling paths for failures, retries, and abnormal traffic.</p></section>
+      <section class="case-section"><h3>Outcome Metrics</h3><ul><li>[Metric + value + period]</li><li>[Metric + value + source]</li><li>[Baseline vs current]</li></ul></section>
+      <section class="case-section"><h3>Tradeoffs &amp; Next Steps</h3><p>State technical debt, conscious tradeoffs, and the next highest-leverage improvement.</p></section>
+    </article>
+    <article class="case-card reveal" aria-label="Business Automation Scripts case study structure">
+      <div class="case-head">
+        <span class="project-badge" style="background: rgba(0,191,255,0.1); color: var(--accent2); border-color: rgba(0,191,255,0.3);">Business Automation Scripts</span>
+        <span class="project-badge" style="background:rgba(0,255,157,0.08);color:var(--accent);border-color:rgba(0,255,157,0.25);">Role: Builder</span>
+        <span class="project-badge" style="background:rgba(255,77,109,0.08);color:var(--accent3);border-color:rgba(255,77,109,0.25);">Status: Private Client Workflow</span>
+        <span class="project-badge" style="background:rgba(0,191,255,0.08);color:var(--accent2);border-color:rgba(0,191,255,0.25);">Timeframe: [Add Verified Dates]</span>
+      </div>
+      <div class="case-title">SME Reconciliation and Reporting Automation</div>
+      <section class="case-section"><h3>Problem &amp; Constraints</h3><p>Describe recurring manual workload, operational deadlines, and data-quality/security constraints.</p></section>
+      <section class="case-section"><h3>Role &amp; Ownership</h3><p>Specify full ownership of pipeline design, scheduling, and secure delivery implementation.</p></section>
+      <section class="case-section"><h3>Architecture &amp; Key Decisions</h3><p>Capture why CSV reconciliation, scheduling model, and secure transport choices were selected.</p></section>
+      <section class="case-section"><h3>Execution</h3><p>Show rollout approach, verification steps, and fallback handling for data/report failures.</p></section>
+      <section class="case-section"><h3>Security &amp; Reliability</h3><p>Summarize credential handling, transport protections, audit logging, and failure alerts.</p></section>
+      <section class="case-section"><h3>Outcome Metrics</h3><ul><li>[Hours saved per week]</li><li>[Error-rate reduction]</li><li>[On-time delivery rate + source]</li></ul></section>
+      <section class="case-section"><h3>Tradeoffs &amp; Next Steps</h3><p>Highlight scalability limits and next improvements with the best operations impact.</p></section>
+    </article>
   </div>
 </section>
 
@@ -1383,45 +1479,6 @@
       }
     });
   })();
-
-  // Custom cursor
-  const cursor = document.getElementById('cursor');
-  const ring = document.getElementById('cursorRing');
-  let mx = 0, my = 0, rx = 0, ry = 0;
-
-  const isFinePointer = window.matchMedia('(pointer: fine)').matches;
-  if (isFinePointer && cursor && ring) {
-    document.addEventListener('mousemove', (e) => {
-      mx = e.clientX;
-      my = e.clientY;
-      cursor.style.left = mx + 'px';
-      cursor.style.top = my + 'px';
-    });
-
-    function animateRing() {
-      rx += (mx - rx) * 0.12;
-      ry += (my - ry) * 0.12;
-      ring.style.left = rx + 'px';
-      ring.style.top = ry + 'px';
-      requestAnimationFrame(animateRing);
-    }
-    animateRing();
-
-    document.querySelectorAll('a, button, .service-card, .project-card').forEach((el) => {
-      el.addEventListener('mouseenter', () => {
-        cursor.style.width = '20px';
-        cursor.style.height = '20px';
-        ring.style.width = '56px';
-        ring.style.height = '56px';
-      });
-      el.addEventListener('mouseleave', () => {
-        cursor.style.width = '12px';
-        cursor.style.height = '12px';
-        ring.style.width = '36px';
-        ring.style.height = '36px';
-      });
-    });
-  }
 
   // Scroll reveal
   const reveals = document.querySelectorAll('.reveal');
