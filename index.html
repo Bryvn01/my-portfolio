@@ -168,23 +168,22 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    cursor: pointer;
     transition: border-color 0.2s, color 0.2s, background 0.2s;
-  }
-  .theme-toggle:hover {
-    border-color: var(--accent2);
-    color: var(--accent2);
-    background: var(--accent2-soft-bg);
-  }
-  .theme-toggle {
     cursor: default;
     opacity: 0.85;
   }
-  .theme-toggle:focus-visible {
-    outline: 2px solid var(--accent2);
-    outline-offset: 2px;
-  }
   .theme-toggle-icon { line-height: 1; }
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
 
   /* HERO */
   #hero {
@@ -966,10 +965,10 @@
     <div
       id="themeToggle"
       class="theme-toggle"
-      aria-label="Theme follows system setting"
     >
       <span class="theme-toggle-icon" aria-hidden="true">☾</span>
       <span class="theme-toggle-text">System</span>
+      <span class="sr-only theme-toggle-announcement">Theme follows system setting (dark mode)</span>
     </div>
   </div>
 </nav>
@@ -1339,14 +1338,15 @@
 
     const iconNode = themeToggle.querySelector('.theme-toggle-icon');
     const textNode = themeToggle.querySelector('.theme-toggle-text');
+    const announcementNode = themeToggle.querySelector('.theme-toggle-announcement');
     if (textNode) textNode.textContent = 'System';
 
     const getCurrentTheme = () => root.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
     const applyTheme = (theme) => {
       root.setAttribute('data-theme', theme === 'light' ? 'light' : 'dark');
       const isLight = theme === 'light';
-      themeToggle.setAttribute('aria-label', `Theme follows system setting (${isLight ? 'light' : 'dark'} mode)`);
       if (iconNode) iconNode.textContent = isLight ? '☀' : '☾';
+      if (announcementNode) announcementNode.textContent = `Theme follows system setting (${isLight ? 'light' : 'dark'} mode)`;
     };
 
     applyTheme(getCurrentTheme());
