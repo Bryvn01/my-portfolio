@@ -1368,7 +1368,7 @@
     const iconNode = themeIndicator.querySelector('.theme-indicator-icon');
     const textNode = themeIndicator.querySelector('.theme-indicator-text');
     const announcementNode = themeIndicator.querySelector('.theme-indicator-announcement');
-    // Small delay improves live-region announcement pickup across screen readers.
+    // Small delay improves live-region announcement reliability across some screen readers.
     const ANNOUNCEMENT_DELAY_MS = 100;
 
     const getCurrentTheme = () => root.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
@@ -1376,12 +1376,13 @@
       root.setAttribute('data-theme', theme === 'light' ? 'light' : 'dark');
       const isLight = theme === 'light';
       if (iconNode) iconNode.textContent = isLight ? '☀' : '☾';
-      if (textNode) textNode.textContent = `Auto · ${isLight ? 'Light' : 'Dark'}`;
+      if (textNode) textNode.textContent = `Auto · ${isLight ? 'Light' : 'Dark'} mode`;
       if (announcementNode) {
         if (!announce) {
           announcementNode.textContent = '';
         } else {
           const message = `System theme detected: ${isLight ? 'light' : 'dark'} mode`;
+          // Reset first so repeated announcements are treated as a fresh update.
           announcementNode.textContent = '';
           window.setTimeout(() => {
             announcementNode.textContent = message;
