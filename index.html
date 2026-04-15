@@ -179,7 +179,7 @@
     color: var(--accent2);
     background: var(--accent2-soft-bg);
   }
-  .theme-toggle[aria-disabled="true"] {
+  .theme-toggle {
     cursor: default;
     opacity: 0.85;
   }
@@ -966,17 +966,16 @@
       <a href="#about">About</a>
       <a href="#contact">Contact</a>
     </div>
-    <button
-      type="button"
+    <div
       id="themeToggle"
       class="theme-toggle"
-      aria-label="Theme follows system setting"
-      aria-pressed="false"
-      aria-disabled="true"
+      role="status"
+      aria-live="polite"
+      aria-label="Theme follows system setting (dark mode)"
     >
       <span class="theme-toggle-icon" aria-hidden="true">☾</span>
       <span class="theme-toggle-text">System</span>
-    </button>
+    </div>
   </div>
 </nav>
 
@@ -1354,7 +1353,6 @@
         root.removeAttribute('data-theme');
       }
       const isLight = theme === 'light';
-      themeToggle.setAttribute('aria-pressed', String(isLight));
       themeToggle.setAttribute('aria-label', `Theme follows system setting (${isLight ? 'light' : 'dark'} mode)`);
       if (iconNode) iconNode.textContent = isLight ? '☀' : '☾';
       if (textNode) textNode.textContent = 'System';
