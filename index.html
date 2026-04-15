@@ -12,18 +12,12 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Syne:wght@400;700;800&family=VT323&display=swap" rel="stylesheet"/>
 <script>
-  window.__portfolioThemeStorageKey = 'portfolio-theme';
-  (function initializeTheme() {
-    try {
-      const savedTheme = localStorage.getItem(window.__portfolioThemeStorageKey);
-      if (savedTheme === 'light' || savedTheme === 'dark') {
-        document.documentElement.setAttribute('data-theme', savedTheme);
-        return;
-      }
-      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-        document.documentElement.setAttribute('data-theme', 'light');
-      }
-    } catch (error) {}
+  (function initializeThemeFromSystem() {
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+      document.documentElement.setAttribute('data-theme', 'light');
+      return;
+    }
+    document.documentElement.removeAttribute('data-theme');
   })();
 </script>
 <style>
@@ -184,6 +178,10 @@
     border-color: var(--accent2);
     color: var(--accent2);
     background: var(--accent2-soft-bg);
+  }
+  .theme-toggle:disabled {
+    cursor: default;
+    opacity: 0.85;
   }
   .theme-toggle:focus-visible {
     outline: 2px solid var(--accent2);
@@ -972,11 +970,12 @@
       type="button"
       id="themeToggle"
       class="theme-toggle"
-      aria-label="Switch to light mode"
+      aria-label="Theme follows system setting"
       aria-pressed="false"
+      disabled
     >
       <span class="theme-toggle-icon" aria-hidden="true">☾</span>
-      <span class="theme-toggle-text">Light</span>
+      <span class="theme-toggle-text">System</span>
     </button>
   </div>
 </nav>
@@ -1338,9 +1337,8 @@
 
 <script>
   'use strict';
-  // Theme toggle with persistence
-  (function setupThemeToggle() {
-    const STORAGE_KEY = window.__portfolioThemeStorageKey || 'portfolio-theme';
+  // Theme indicator that follows system preference
+  (function setupSystemThemeIndicator() {
     const root = document.documentElement;
     const themeToggle = document.getElementById('themeToggle');
     if (!themeToggle) return;
@@ -1357,35 +1355,21 @@
       }
       const isLight = theme === 'light';
       themeToggle.setAttribute('aria-pressed', String(isLight));
-      themeToggle.setAttribute('aria-label', isLight ? 'Switch to dark mode' : 'Switch to light mode');
+      themeToggle.setAttribute('aria-label', `Theme follows system setting (${isLight ? 'light' : 'dark'} mode)`);
       if (iconNode) iconNode.textContent = isLight ? '☀' : '☾';
-      if (textNode) textNode.textContent = isLight ? 'Dark' : 'Light';
+      if (textNode) textNode.textContent = 'System';
     };
 
     applyTheme(getCurrentTheme());
 
-    let hasUserPreference = false;
-    try {
-      const storedTheme = localStorage.getItem(STORAGE_KEY) || '';
-      hasUserPreference = storedTheme === 'light' || storedTheme === 'dark';
-    } catch (error) {
-      hasUserPreference = false;
-    }
-
-    themeToggle.addEventListener('click', () => {
-      const nextTheme = getCurrentTheme() === 'light' ? 'dark' : 'light';
-      applyTheme(nextTheme);
-      hasUserPreference = true;
-      try {
-        localStorage.setItem(STORAGE_KEY, nextTheme);
-      } catch (error) {}
-    });
-
-    if (!hasUserPreference && window.matchMedia) {
+    if (window.matchMedia) {
       const media = window.matchMedia('(prefers-color-scheme: light)');
       if (typeof media.addEventListener === 'function') {
         media.addEventListener('change', (event) => {
-          if (hasUserPreference) return;
+          applyTheme(event.matches ? 'light' : 'dark');
+        });
+      } else if (typeof media.addListener === 'function') {
+        media.addListener((event) => {
           applyTheme(event.matches ? 'light' : 'dark');
         });
       }
