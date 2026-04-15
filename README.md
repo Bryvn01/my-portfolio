@@ -12,6 +12,7 @@ Professional portfolio website for Brian (Bryvn01), focused on secure engineerin
 - Single-page static HTML/CSS/JavaScript
 - Formspree for contact form handling
 - Security-focused meta policies (CSP, referrer policy, permissions policy)
+- Theme strategy: system-driven only (`prefers-color-scheme`) with no persisted manual light/dark override
 
 ## Local Development
 
