@@ -1374,7 +1374,15 @@
       const isLight = theme === 'light';
       if (iconNode) iconNode.textContent = isLight ? '☀' : '☾';
       if (announcementNode) {
-        announcementNode.textContent = announce ? `System theme detected: ${isLight ? 'light' : 'dark'} mode` : '';
+        if (!announce) {
+          announcementNode.textContent = '';
+        } else {
+          const message = `System theme detected: ${isLight ? 'light' : 'dark'} mode`;
+          announcementNode.textContent = '';
+          window.setTimeout(() => {
+            announcementNode.textContent = message;
+          }, 100);
+        }
       }
     };
 
